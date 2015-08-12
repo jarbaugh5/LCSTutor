@@ -8,7 +8,8 @@ module.exports = function (grunt) {
         copy: {
             main: {
                 files: [
-                    {expand: true, flatten: true, src: ['bower_components/angular/angular.min.js'], dest: 'static/lib/angular/'}
+                    {expand: true, flatten: true, src: ['bower_components/angular/angular.min.js'], dest: 'static/vendor/angular/'},
+                    {expand: true, flatten: true, src: ['bower_components/angular-ui-router/release/angular-ui-router.min.js'], dest: 'static/vendor/angular-ui-router/release/'}
                 ]
             }
         }
