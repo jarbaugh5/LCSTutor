@@ -3,22 +3,32 @@
 define([ // jshint ignore:line
     'angular',
     'uiRouter',
-    'controllers'
+    'controllers',
+    'jQuery',
+    'bootstrap',
 ], function (angular) {
     var app = angular.module('LCSTutoringApp', ['ui.router', 'LCSTutoringApp.controllers']);
 
-    app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
-            .state('home', {
+            .state('landingPage', {
                 url: '/',
+                controller: 'LCSTutoringApp.controllers.LandingPageController',
+                templateUrl: '/static/app/partials/landing-page.html'
+            })
+            .state('home', {
+                url: '/home',
                 controller: 'LCSTutoringApp.controllers.HomeController',
                 templateUrl: '/static/app/partials/home.html'
             });
 
         $locationProvider.html5Mode(true);
+
+        $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+        $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     });
 
     // Manually bootstrap the app since the JS is asynchronously loaded

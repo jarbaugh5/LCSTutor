@@ -1,0 +1,56 @@
+<div class="lp-container">
+    <div class="lp-header text-center">
+        <span class="lp-header-text">LCS Tutoring Portal</span>
+    </div>
+
+    <div class="lp-logo-container text-center">
+        <img class="lp-logo" src="/static/img/logo_half.png">
+    </div>
+
+    <div class="lp-login-box-container text-center">
+        <div class="lp-login lp-login-box">
+            <h2>
+                Sign in:
+            </h2>
+
+            <form action="/login" method="post" class="form-horizontal">
+                <input ng-if="next" type="hidden" name="next" value="{{next}}"/>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrftoken }}">
+
+                <div class="form-group">
+                    <label for="username" class="control-label col-sm-3">Username: </label>
+                    <div class="col-md-9">
+                        <input type="text" name="username" id="username"
+                               value="" placeholder="Username" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="control-label col-sm-3">Password: </label>
+                    <div class="col-sm-9">
+                        <input type="password" name="password" id="password" value="" class="form-control" placeholder="Password"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="submit" value="Submit" class="btn btn-default"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div>
+            <button class="btn btn-default lp-tutee-btn lp-login">
+                Sign Up as a Tutee
+            </button>
+        </div>
+
+        <div>
+            <button class="btn btn-default lp-tutor-btn lp-login">
+                Sign Up as a Tutor
+            </button>
+        </div>
+    </div>
+
+</div>

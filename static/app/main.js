@@ -5,7 +5,10 @@ requirejs.config({ // jshint ignore:line
 
     paths: {
         angular: '../vendor/angular/angular.min',
-        uiRouter: '../vendor/angular-ui-router/release/angular-ui-router.min'
+        uiRouter: '../vendor/angular-ui-router/release/angular-ui-router.min',
+        ngCookies: '../vendor/angular-cookies/angular-cookies.min',
+        bootstrap: '../vendor/bootstrap/js/bootstrap.min',
+        jQuery: '../vendor/jquery/jquery.min'
     },
 
     shim: {
@@ -14,6 +17,12 @@ requirejs.config({ // jshint ignore:line
         },
         'uiRouter': {
             deps: ['angular']
+        },
+        'ngCookies': {
+            deps: ['angular']
+        },
+        'bootstrap': {
+            deps: ['jQuery']
         }
     },
 

@@ -6,9 +6,18 @@
 
     <base href="/">
 
+    <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/styles.css"/>
+
     <script data-main="/static/app/main" src="/static/vendor/requirejs/require.js"></script>
+
+    <script type="text/javascript">
+        {% autoescape off %}
+        window.lcs_user = {{ user_details}};
+        {% endautoescape %}
+    </script>
 </head>
 <body>
-    <div ui-view></div>
+    <div ui-view class="lcs-container"></div>
 </body>
 </html>
