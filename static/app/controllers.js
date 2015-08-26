@@ -18,15 +18,15 @@ define([ // jshint ignore:line
         'LCSTutoring.services.UserInfo',
         '$state',
         function ($scope, $cookies, UserInfo, $state) {
-            $scope.name = 'Home';
-
             $scope.csrftoken = $cookies.get('csrftoken');
-
-            console.log(UserInfo);
 
             if (UserInfo.hasInfo) {
                 $state.go('home');
             }
+
+            $scope.goToTuteeSignup = function () {
+                $state.go('tuteeSignup');
+            };
         }]);
 
     controllers.controller('LCSTutoringApp.controllers.HomeController', [
@@ -41,6 +41,15 @@ define([ // jshint ignore:line
 
             $scope.logout = function () {
                 $window.location.href = '/logout';
+            };
+        }]);
+
+    controllers.controller('LCSTutoringApp.controllers.TuteeSignupController', [
+        '$scope',
+        '$state',
+        function ($scope, $state) {
+            $scope.goToHome = function () {
+                $state.go('home');
             };
         }]);
 

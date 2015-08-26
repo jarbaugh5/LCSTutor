@@ -23,6 +23,11 @@ define([ // jshint ignore:line
                 url: '/home',
                 controller: 'LCSTutoringApp.controllers.HomeController',
                 templateUrl: '/static/app/partials/home.html'
+            })
+            .state('tuteeSignup', {
+                url: '/tuteesignup',
+                controller: 'LCSTutoringApp.controllers.TuteeSignupController',
+                templateUrl: '/static/app/partials/tutee-signup.html'
             });
 
         $locationProvider.html5Mode(true);

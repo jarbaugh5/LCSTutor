@@ -1,0 +1,140 @@
+<div class="tutee-signup-container">
+    <div class="tutee-signup-header text-center">
+        <div>
+            <button class="btn btn-default btn-lg tutee-signup-header-home-btn"
+                    ng-click="goToHome()">
+                Home
+            </button>
+        </div>
+
+        <div>
+            <img class="tutee-signup-header-icon" src="/static/img/logo_quarter.png">
+        </div>
+
+        <span class="tutee-signup-header-text">Please fill out this form so we can match you accordingly:</span>
+    </div>
+
+    <div class="tutee-signup-body text-center">
+        <div class="tutee-signup-form-container text-left">
+            <form class="form-horizontal">
+
+                <div class="tutee-signup-item">
+                    <label class="control-label" for="firstname">First Name:</label>
+                    <input type="text" id="firstname" name="firstname" class="form-control" placeholder="First Name" value=""/>
+                </div>
+
+                <div class="tutee-signup-item">
+                    <label class="control-label" for="lastname">Last Name:</label>
+                    <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Last Name" value=""/>
+                </div>
+
+                <div class="tutee-signup-item">
+                    <label class="control-label" for="username">Username:</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" value=""/>
+                </div>
+
+                <div class="tutee-signup-item">
+                    <label class="control-label" for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" value=""/>
+                </div>
+
+                <div class="tutee-signup-item">
+                    <label class="control-label" for="password">Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" class="form-control" placeholder="Confirm Password" value=""/>
+                </div>
+
+                <div class="tutee-signup-item">
+                    <label class="control-label" for="email">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Email" value=""/>
+                </div>
+
+                <div class="tutee-signup-item">
+                    <label class="control-label" for="tuteephone">Tutee Phone:</label>
+                    <input type="text" id="tuteephone" name="tuteephone" class="form-control" placeholder="Tutee Phone" value=""/>
+                </div>
+
+                <div class="tutee-signup-item">
+                    <label class="control-label" for="username">SAT Help?</label>
+                    <input type="checkbox" id="sathelp" name="sathelp" />
+                </div>
+
+                <div class="tutee-signup-item tutee-signup-item-w-select">
+                    <label class="control-label" for="subjects">Subjects:</label>
+                    <select multiple id="subjects" name="subjects">
+                        <option value="math">Math</option>
+                    </select>
+                </div>
+
+                <div class="tutee-signup-item tutee-signup-item-gender" ng-init="gender='male'; other=false; otherGender=''">
+                    <label class="control-label">
+                        Gender:
+                    </label>
+                    <div class="contains-radio">
+                        <label>
+                            <input type="radio" name="gender" label="Male" accesskey="M"
+                                   ng-model="gender" ng-value="'male'"
+                                    ng-click="other=false; otherGender=''"
+                                    selected/>
+                            Male
+                        </label>
+                        <label>
+                            <input type="radio" name="gender" label="Female" accesskey="F"
+                                   ng-model="gender" ng-value="'female'"
+                                    ng-click="other=false; otherGender=''"/>
+                            Female
+                        </label>
+                        <label>
+                            <input type="radio" name="gender" label="Other" accesskey="O"
+                                   ng-model="other" ng-value="true"
+                                    ng-click="gender=null"/>
+                            Other
+                        </label>
+                    </div>
+                    <label class="control-label invisible" for="gender-other-text">
+                        Gender (Other):
+                    </label>
+                    <input type="text" id="gender-other-text" name="gender-other-text" class="form-control"
+                           placeholder="Other" value=""
+                           ng-disabled="!other" ng-model="otherGender"/>
+                </div>
+
+                <div class="tutee-signup-item" ng-init="grade">
+                    <label class="control-label" for="grade">Grade:</label>
+                    <select id="grade" name="grade" ng-model="grade">
+                        <option value="1">1st Grade</option>
+                        <option value="2">2nd Grade</option>
+                        <option value="3">3rd Grade</option>
+                        <option value="4">4th Grade</option>
+                        <option value="5">5th Grade</option>
+                        <option value="6">6th Grade</option>
+                        <option value="7">7th Grade</option>
+                        <option value="8">8th Grade</option>
+                        <option value="9">9th Grade</option>
+                        <option value="10">10th Grade</option>
+                        <option value="11">11th Grade</option>
+                        <option value="12">12th Grade</option>
+                    </select>
+                </div>
+
+                <div class="tutee-signup-item">
+                    <label class="control-label" for="parentname">Parent Name:</label>
+                    <input type="text" id="parentname" name="parentname" class="form-control" placeholder="Parent Name" value=""/>
+                </div>
+
+                <div class="tutee-signup-item">
+                    <label class="control-label" for="parentphone">Parent Phone:</label>
+                    <input type="text" id="parentphone" name="parentphone" class="form-control" placeholder="Parent Phone" value=""/>
+                </div>
+
+                <div class="tutee-signup-item tutee-signup-item-w-select">
+                    <label class="control-label" for="extrainfo">Extra Info:</label>
+                    <textarea id="extrainfo" name="extrainfo" class="form-control" placeholder="Extra Information" value=""></textarea>
+                </div>
+
+                <div class="tutee-signup-submit-item">
+                    <input type="submit" value="Submit" class="btn btn-lg btn-default">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
