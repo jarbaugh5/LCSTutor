@@ -29,5 +29,70 @@ define([ // jshint ignore:line
         };
     }]);
 
+    services.service('LCSTutoring.services.PostService', [
+        '$http',
+        '$httpParamSerializer',
+        function ($http, $httpParamSerializer) {
+            var postService = {};
+
+            postService.tuteeSignupEndpoint = '/tuteesignup';
+
+            postService.post = function (endpoint, data, cb, err) {
+                $http.post(
+                    endpoint,
+                    $httpParamSerializer(data),//$.param(data),//encodeURIComponent(JSON.stringify(data)),
+                    {
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .success(cb)
+                    .error(err);
+            };
+
+            return postService;
+        }
+    ]);
+
+    services.service('LCSTutoring.services.Subjects', [
+        '$http',
+        function ($http) {
+            var service = {};
+
+            service.subjects = [];
+
+            $http.post('/getsubjects')
+                .success(function (data) {
+                    Array.prototype.push.apply(service.subjects, data);
+                })
+                .error(function () {
+                    console.error('Unable to get subjects list');
+                });
+
+            return service;
+        }
+    ]);
+
+    services.service('LCSTutoring.services.Tutee', [
+        '$http',
+        function ($http) {
+            var service = {};
+
+            /* Expose data using two pointers so we don't have to $watch it later */
+            service.tutee = {
+                info: {}
+            };
+
+            $http.post('/gettuteeinfo')
+                .success(function (data) {
+                    console.log(data);
+                    service.tutee.info = data;
+                })
+                .error(function () {
+                    console.error('Unable to get tutee info');
+                });
+
+            return service;
+        }
+    ]);
+
     return services;
 });

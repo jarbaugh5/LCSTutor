@@ -1,0 +1,42 @@
+<div class="lcs-container">
+    <div class="lcs-header text-center">
+        <div>
+            <button class="btn btn-default btn-lg lcs-header-home-btn"
+                    ng-click="logout()">
+                Logout
+            </button>
+        </div>
+
+        <div>
+            <img class="lcs-header-icon" src="/static/img/logo_quarter.png">
+        </div>
+
+        <span class="lcs-header-text"></span>
+    </div>
+
+    <div class="lcs-body text-center">
+        <div class="iv-info-container">
+            <div class="iv-info-wrapper text-left">
+                <strong>Name: <span class="iv-info-val">{{ tutee.info.user.first_name }} {{ tutee.info.user.last_name }}</span></strong>
+                <p>Username: <span class="iv-info-val">{{ tutee.info.user.username }}</span></p>
+                <p>Email: <span class="iv-info-val">{{ tutee.info.user.email }}</span></p>
+                <p>Tutee Phone: <span class="iv-info-val">{{ tutee.info.tutee_phone }}</span></p>
+                <p>SAT Help? <span class="glyphicon iv-info-val"
+                                   ng-class="{true: 'glyphicon-ok', false: 'glyphicon-remove'}[tutee.info.sat_help]">
+                </span>
+                </p>
+                <p>
+                    Subjects:
+                    <span class="iv-info-val">
+                        <ul>
+                            <li ng-repeat="subject in tutee.info.subjects">{{ subject.name }}</li>
+                        </ul>
+                    </span>
+                </p>
+                <p>Grade: <span class="iv-info-val">{{ tutee.info.grade }}</span></p>
+                <p>Parent Name: <span class="iv-info-val">{{ tutee.info.parent_name }}</span></p>
+                <p>Parent Phone: <span class="iv-info-val">{{ tutee.info.parent_phone }}</span></p>
+            </div>
+        </div>
+    </div>
+</div>

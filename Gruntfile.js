@@ -14,6 +14,7 @@ module.exports = function (grunt) {
 
                     {expand: true, flatten: true, src: ['bower_components/bootstrap/dist/css/bootstrap.min.css'], dest: 'static/vendor/bootstrap/css'},
                     {expand: true, flatten: true, src: ['bower_components/bootstrap/dist/js/bootstrap.min.js'], dest: 'static/vendor/bootstrap/js'},
+                    {expand: true, flatten: true, src: ['bower_components/bootstrap/dist/fonts/*'], dest: 'static/vendor/bootstrap/fonts'},
 
 
                     {expand: true, flatten: true, src: ['bower_components/jquery/dist/jquery.min.js'], dest: 'static/vendor/jquery'}

@@ -16,91 +16,94 @@
 
     <div class="tutee-signup-body text-center">
         <div class="tutee-signup-form-container text-left">
-            <form class="form-horizontal">
+            <form class="form-horizontal" ng-submit="submitForm()">
 
                 <div class="tutee-signup-item">
                     <label class="control-label" for="firstname">First Name:</label>
-                    <input type="text" id="firstname" name="firstname" class="form-control" placeholder="First Name" value=""/>
+                    <input type="text" id="firstname" name="firstname" class="form-control" placeholder="First Name" ng-model="formData.firstName"/>
                 </div>
 
                 <div class="tutee-signup-item">
                     <label class="control-label" for="lastname">Last Name:</label>
-                    <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Last Name" value=""/>
+                    <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Last Name" ng-model="formData.lastName"/>
                 </div>
 
                 <div class="tutee-signup-item">
                     <label class="control-label" for="username">Username:</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" value=""/>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" ng-model="formData.username"/>
                 </div>
 
                 <div class="tutee-signup-item">
                     <label class="control-label" for="password">Password:</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" value=""/>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" ng-model="formData.password"/>
                 </div>
 
                 <div class="tutee-signup-item">
-                    <label class="control-label" for="password">Password:</label>
-                    <input type="password" id="confirm-password" name="confirm-password" class="form-control" placeholder="Confirm Password" value=""/>
+                    <label class="control-label" for="confirmpassword">Password:</label>
+                    <input type="password" id="confirmpassword" name="confirmpassword" class="form-control"
+                           placeholder="Confirm Password" ng-model="formData.confirmPassword"/>
                 </div>
 
                 <div class="tutee-signup-item">
                     <label class="control-label" for="email">Email:</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Email" value=""/>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Email"
+                            ng-model="formData.email"/>
                 </div>
 
                 <div class="tutee-signup-item">
                     <label class="control-label" for="tuteephone">Tutee Phone:</label>
-                    <input type="text" id="tuteephone" name="tuteephone" class="form-control" placeholder="Tutee Phone" value=""/>
+                    <input type="text" id="tuteephone" name="tuteephone" class="form-control" placeholder="Tutee Phone"
+                            ng-model="formData.tuteePhone"/>
                 </div>
 
                 <div class="tutee-signup-item">
                     <label class="control-label" for="username">SAT Help?</label>
-                    <input type="checkbox" id="sathelp" name="sathelp" />
+                    <input type="checkbox" id="sathelp" name="sathelp" ng-model="formData.satHelp"/>
                 </div>
 
                 <div class="tutee-signup-item tutee-signup-item-w-select">
                     <label class="control-label" for="subjects">Subjects:</label>
-                    <select multiple id="subjects" name="subjects">
-                        <option value="math">Math</option>
+                    <select multiple id="subjects" name="subjects" ng-model="formData.subjects">
+                        <option ng-repeat="sub in subjectChoices" value="{{sub.id}}">{{sub.name}}</option>
                     </select>
                 </div>
 
-                <div class="tutee-signup-item tutee-signup-item-gender" ng-init="gender='male'; other=false; otherGender=''">
+                <div class="tutee-signup-item tutee-signup-item-gender">
                     <label class="control-label">
                         Gender:
                     </label>
                     <div class="contains-radio">
                         <label>
                             <input type="radio" name="gender" label="Male" accesskey="M"
-                                   ng-model="gender" ng-value="'male'"
-                                    ng-click="other=false; otherGender=''"
+                                   ng-model="formData.gender" ng-value="'male'"
+                                    ng-click="formData.other=false; formData.otherGender=''"
                                     selected/>
                             Male
                         </label>
                         <label>
                             <input type="radio" name="gender" label="Female" accesskey="F"
-                                   ng-model="gender" ng-value="'female'"
-                                    ng-click="other=false; otherGender=''"/>
+                                   ng-model="formData.gender" ng-value="'female'"
+                                    ng-click="formData.other=false; formData.otherGender=''"/>
                             Female
                         </label>
                         <label>
                             <input type="radio" name="gender" label="Other" accesskey="O"
-                                   ng-model="other" ng-value="true"
-                                    ng-click="gender=null"/>
+                                   ng-model="formData.other" ng-value="true"
+                                    ng-click="formData.gender=null"/>
                             Other
                         </label>
                     </div>
-                    <label class="control-label invisible" for="gender-other-text">
+                    <label class="control-label invisible" for="genderothertext">
                         Gender (Other):
                     </label>
-                    <input type="text" id="gender-other-text" name="gender-other-text" class="form-control"
+                    <input type="text" id="genderothertext" name="genderothertext" class="form-control"
                            placeholder="Other" value=""
-                           ng-disabled="!other" ng-model="otherGender"/>
+                           ng-disabled="!formData.other" ng-model="formData.otherGender"/>
                 </div>
 
                 <div class="tutee-signup-item" ng-init="grade">
                     <label class="control-label" for="grade">Grade:</label>
-                    <select id="grade" name="grade" ng-model="grade">
+                    <select id="grade" name="grade" ng-model="formData.grade">
                         <option value="1">1st Grade</option>
                         <option value="2">2nd Grade</option>
                         <option value="3">3rd Grade</option>
@@ -118,17 +121,20 @@
 
                 <div class="tutee-signup-item">
                     <label class="control-label" for="parentname">Parent Name:</label>
-                    <input type="text" id="parentname" name="parentname" class="form-control" placeholder="Parent Name" value=""/>
+                    <input type="text" id="parentname" name="parentname" class="form-control" placeholder="Parent Name"
+                            ng-model="formData.parentName"/>
                 </div>
 
                 <div class="tutee-signup-item">
                     <label class="control-label" for="parentphone">Parent Phone:</label>
-                    <input type="text" id="parentphone" name="parentphone" class="form-control" placeholder="Parent Phone" value=""/>
+                    <input type="text" id="parentphone" name="parentphone" class="form-control"
+                           placeholder="Parent Phone" ng-model="formData.parentPhone"/>
                 </div>
 
                 <div class="tutee-signup-item tutee-signup-item-w-select">
                     <label class="control-label" for="extrainfo">Extra Info:</label>
-                    <textarea id="extrainfo" name="extrainfo" class="form-control" placeholder="Extra Information" value=""></textarea>
+                    <textarea id="extrainfo" name="extrainfo" class="form-control" placeholder="Extra Information"
+                              ng-model="formData.extraInfo"></textarea>
                 </div>
 
                 <div class="tutee-signup-submit-item">
