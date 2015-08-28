@@ -27,6 +27,10 @@ define([ // jshint ignore:line
             $scope.goToTuteeSignup = function () {
                 $state.go('tuteeSignup');
             };
+
+            $scope.goToTutorSignup = function () {
+                $state.go('tutorSignup');
+            };
         }]);
 
     controllers.controller('LCSTutoringApp.controllers.HomeController', [
@@ -39,9 +43,7 @@ define([ // jshint ignore:line
                 $state.go('landingPage');
             }
 
-            if (UserInfo.user.is_tutee) {
-                $state.go('infoView');
-            }
+            $state.go('infoView');
 
             $scope.logout = function () {
                 $window.location.href = '/logout';
@@ -110,6 +112,64 @@ define([ // jshint ignore:line
             };
         }]);
 
+    controllers.controller('LCSTutoringApp.controllers.TutorSignupController', [
+        '$scope',
+        '$state',
+        'LCSTutoring.services.PostService',
+        'LCSTutoring.services.Subjects',
+        function ($scope, $state, PostService, Subjects) {
+            $scope.formData = {};
+
+            $scope.formData.firstName = '';
+            $scope.formData.lastName = '';
+            $scope.formData.username = '';
+            $scope.formData.password = '';
+            $scope.formData.confirmPassword = '';
+            $scope.formData.email = '';
+            $scope.formData.phone = '';
+            $scope.formData.satHelp = false;
+            $scope.formData.subjects = [];
+            $scope.formData.gender = 'male'; // Choosing one by default
+            $scope.formData.other = false; // Other gender flag
+            $scope.formData.otherGender = ''; // Other gender text if flag is true
+            //$scope.formData.grade = '1'; // Choosing one by default
+            $scope.formData.extraInfo = '';
+
+            $scope.subjectChoices = Subjects.subjects;
+
+
+            $scope.goToHome = function () {
+                $state.go('home');
+            };
+
+            $scope.submitForm = function () {
+                PostService.post(
+                    PostService.tutorSignupEndpoint,
+                    {
+                        'first_name': $scope.formData.firstName,
+                        'last_name': $scope.formData.lastName,
+                        'username': $scope.formData.username,
+                        'password': $scope.formData.password,
+                        'confirm_password': $scope.formData.confirmPassword,
+                        'email': $scope.formData.email,
+                        'phone': $scope.formData.phone,
+                        'sat_help': $scope.formData.satHelp,
+                        'subjects': $scope.formData.subjects,
+                        'gender': $scope.formData.other ? $scope.formData.otherGender : $scope.formData.gender,
+                        //'grade': $scope.formData.grade,
+                        'extra_info': $scope.formData.extraInfo
+                    },
+                    function () {
+                        console.log('Posted tutor signup data');
+                        $state.go('postSignup');
+                    },
+                    function () {
+                        console.error('Error posting tutee signup data');
+                    }
+                );
+            };
+        }]);
+
     controllers.controller('LCSTutoringApp.controllers.PostSignupController', [
         '$scope',
         '$state',
@@ -127,9 +187,10 @@ define([ // jshint ignore:line
         '$scope',
         'LCSTutoring.services.UserInfo',
         'LCSTutoring.services.Tutee',
+        'LCSTutoring.services.Tutor',
         '$state',
         '$window',
-        function ($scope, UserInfo, Tutee, $state, $window) {
+        function ($scope, UserInfo, Tutee, Tutor, $state, $window) {
             if (!UserInfo.hasInfo) {
                 $state.go('landingPage');
             }
@@ -138,7 +199,11 @@ define([ // jshint ignore:line
                 $window.location.href = '/logout';
             };
 
-            $scope.tutee = Tutee.tutee;
+            if (UserInfo.user.is_tutee) {
+                $scope.tutee = Tutee.tutee;
+            } else {
+                $scope.tutee = Tutor.tutor;
+            }
         }]);
 
     return controllers;

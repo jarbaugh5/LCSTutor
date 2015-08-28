@@ -29,6 +29,11 @@ define([ // jshint ignore:line
                 controller: 'LCSTutoringApp.controllers.TuteeSignupController',
                 templateUrl: '/static/app/partials/tutee-signup.html'
             })
+            .state('tutorSignup', {
+                url: '/tutorsignup',
+                controller: 'LCSTutoringApp.controllers.TutorSignupController',
+                templateUrl: '/static/app/partials/tutor-signup.html'
+            })
             .state('infoView', {
                 url: '/viewinfo',
                 controller: 'LCSTutoringApp.controllers.InfoViewController',

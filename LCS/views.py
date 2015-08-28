@@ -10,8 +10,8 @@ from django.contrib.auth.decorators import login_required
 
 import json
 
-from .models import Tutee, Subject
-from .forms import TuteeForm
+from .models import Tutee, Subject, Tutor
+from .forms import TuteeForm, TutorForm
 
 
 def app(request):
@@ -97,6 +97,41 @@ def tutee_signup(request):
         return HttpResponse('Tutee signed up successfully')
 
 
+def tutor_signup(request):
+    if request.method == 'GET':
+        return app(request)
+
+    if request.method == 'POST':
+        pass1 = request.POST['password']
+        pass2 = request.POST['confirm_password']
+
+        tutor_form = TutorForm(request.POST)
+
+        if pass1 != pass2:
+            # TODO: handle this better
+            return HttpResponseBadRequest('Passwords don\'t match')
+
+        if not tutor_form.is_valid():
+            # TODO: handle this better
+            return HttpResponseBadRequest(json.dumps(tutee_form.errors))
+
+        user = User.objects.create_user(username=request.POST['username'],
+                                        first_name=request.POST['first_name'],
+                                        last_name=request.POST['last_name'],
+                                        email=request.POST['email'])
+
+        user.set_password(pass1)
+        user.save()
+
+        tutor = tutor_form.save(commit=False)
+        tutor.user = user
+
+        tutor.save()
+        tutor_form.save_m2m()  # Required b/c we used commit=False earlier
+
+        return HttpResponse('Tutor signed up successfully')
+
+
 def get_subjects(request):
     return HttpResponse(
         json.dumps([model_to_dict(sub) for sub in Subject.objects.all()], cls=DjangoJSONEncoder),
@@ -123,6 +158,31 @@ def get_tutee_info(request):
     return HttpResponse(
         json.dumps(
             tutee_dict,
+            cls=DjangoJSONEncoder
+        ),
+        content_type='application/json'
+    )
+
+
+def get_tutor_info(request):
+    if not request.user.is_authenticated():
+        return HttpResponseForbidden()
+
+    tutor = Tutor.objects.get(user=request.user)
+    tutor_dict = model_to_dict(tutor)
+
+    # Chase user foreign key
+    tutor_dict['user'] = model_to_dict(request.user, fields=['first_name', 'last_name', 'username', 'email'])
+
+    # Chase subjects foreign keys
+    subjects = []
+    for sub_id in tutor_dict['subjects']:
+        subjects.append(model_to_dict(Subject.objects.get(id=sub_id)))
+    tutor_dict['subjects'] = subjects
+
+    return HttpResponse(
+        json.dumps(
+            tutor_dict,
             cls=DjangoJSONEncoder
         ),
         content_type='application/json'

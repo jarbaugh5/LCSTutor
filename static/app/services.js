@@ -36,6 +36,7 @@ define([ // jshint ignore:line
             var postService = {};
 
             postService.tuteeSignupEndpoint = '/tuteesignup';
+            postService.tutorSignupEndpoint = '/tutorsignup';
 
             postService.post = function (endpoint, data, cb, err) {
                 $http.post(
@@ -85,6 +86,29 @@ define([ // jshint ignore:line
                 .success(function (data) {
                     console.log(data);
                     service.tutee.info = data;
+                })
+                .error(function () {
+                    console.error('Unable to get tutee info');
+                });
+
+            return service;
+        }
+    ]);
+
+    services.service('LCSTutoring.services.Tutor', [
+        '$http',
+        function ($http) {
+            var service = {};
+
+            /* Expose data using two pointers so we don't have to $watch it later */
+            service.tutor = {
+                info: {}
+            };
+
+            $http.post('/gettutorinfo')
+                .success(function (data) {
+                    console.log(data);
+                    service.tutor.info = data;
                 })
                 .error(function () {
                     console.error('Unable to get tutee info');

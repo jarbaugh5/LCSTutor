@@ -20,7 +20,8 @@
                 <strong>Name: <span class="iv-info-val">{{ tutee.info.user.first_name }} {{ tutee.info.user.last_name }}</span></strong>
                 <p>Username: <span class="iv-info-val">{{ tutee.info.user.username }}</span></p>
                 <p>Email: <span class="iv-info-val">{{ tutee.info.user.email }}</span></p>
-                <p>Tutee Phone: <span class="iv-info-val">{{ tutee.info.tutee_phone }}</span></p>
+                <p ng-if="tutee.info.tutee_phone">Tutee Phone: <span class="iv-info-val">{{ tutee.info.tutee_phone }}</span></p>
+                <p ng-if="tutee.info.phone">Phone: <span class="iv-info-val">{{ tutee.info.phone }}</span></p>
                 <p>SAT Help? <span class="glyphicon iv-info-val"
                                    ng-class="{true: 'glyphicon-ok', false: 'glyphicon-remove'}[tutee.info.sat_help]">
                 </span>
@@ -33,9 +34,10 @@
                         </ul>
                     </span>
                 </p>
-                <p>Grade: <span class="iv-info-val">{{ tutee.info.grade }}</span></p>
-                <p>Parent Name: <span class="iv-info-val">{{ tutee.info.parent_name }}</span></p>
-                <p>Parent Phone: <span class="iv-info-val">{{ tutee.info.parent_phone }}</span></p>
+                <p ng-if="tutee.info.grade">Grade: <span class="iv-info-val">{{ tutee.info.grade }}</span></p>
+                <p ng-if="tutee.info.parent_name">Parent Name: <span class="iv-info-val">{{ tutee.info.parent_name }}</span></p>
+                <p ng-if="tutee.info.parent_phone">Parent Phone: <span class="iv-info-val">{{ tutee.info.parent_phone }}</span></p>
+                <p>Extra Info: <span class="iv-info-val">{{ tutee.info.extra_info }}</span></p>
             </div>
         </div>
     </div>
