@@ -4,11 +4,11 @@ requirejs.config({ // jshint ignore:line
     baseUrl: '/static/app/',
 
     paths: {
-        angular: '../vendor/angular/angular.min',
-        uiRouter: '../vendor/angular-ui-router/release/angular-ui-router.min',
-        ngCookies: '../vendor/angular-cookies/angular-cookies.min',
-        bootstrap: '../vendor/bootstrap/js/bootstrap.min',
-        jQuery: '../vendor/jquery/jquery.min'
+        angular: '../bower_components/angular/angular.min',
+        uiRouter: '../bower_components/angular-ui-router/release/angular-ui-router.min',
+        ngCookies: '../bower_components/angular-cookies/angular-cookies.min',
+        bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
+        jQuery: '../bower_components/jquery/dist/jquery.min'
     },
 
     shim: {
