@@ -149,3 +149,4 @@ target/
 ### LCS
 db.*
 bower_components/
+static/css/styles.css
