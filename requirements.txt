@@ -6,3 +6,4 @@ gunicorn==19.3.0
 psycopg2==2.6.1
 static3==0.6.1
 django-require==1.0.8
+django-sslify>=0.2.0
