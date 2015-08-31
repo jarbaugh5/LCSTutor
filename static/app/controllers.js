@@ -206,6 +206,26 @@ define([ // jshint ignore:line
             } else {
                 $scope.tutee = Tutor.tutor;
             }
+
+            $scope.goToMakeMatches = function () {
+                $state.go('makeMatches');
+            };
+
+            $scope.goToEditTutees = function () {
+                $state.go('editTutees');
+            };
+
+            $scope.goToEditTutors = function () {
+                $state.go('editTutors');
+            };
+
+            $scope.goToManageAdmins = function () {
+                $state.go('manageAdmins');
+            };
+
+            $scope.goToViewMatches = function () {
+                $state.go('viewMatches');
+            };
         }]);
 
     return controllers;
