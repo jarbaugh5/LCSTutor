@@ -137,6 +137,17 @@ define([ // jshint ignore:line
                     });
             };
 
+            service.getAllAdmins = function (cb, err) {
+                $http.post('/getalladmins')
+                    .success(function (data) {
+                        console.log(data);
+                        cb(data);
+                    })
+                    .error(function () {
+                        err();
+                    });
+            };
+
             return service;
         }
     ]);

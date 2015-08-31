@@ -186,9 +186,11 @@ def chase_subjects(tut):
     """
     if type(tut) == list:
         for tut_obj in tut:
-            tut_obj['subjects'] = [model_to_dict(Subject.objects.get(id=sub_id)) for sub_id in tut_obj['subjects']]
+            if 'subjects' in tut_obj:
+                tut_obj['subjects'] = [model_to_dict(Subject.objects.get(id=sub_id)) for sub_id in tut_obj['subjects']]
     elif type(tut) == dict:
-        tut['subjects'] = [model_to_dict(Subject.objects.get(id=sub_id)) for sub_id in tut['subjects']]
+        if 'subjects' in tut:
+            tut['subjects'] = [model_to_dict(Subject.objects.get(id=sub_id)) for sub_id in tut['subjects']]
     return tut
 
 
@@ -240,6 +242,33 @@ def get_all_tutees(request):
     return HttpResponse(
         json.dumps(
             tutees_list,
+            cls=DjangoJSONEncoder
+        ),
+        content_type='application/json'
+    )
+
+
+def get_all_admins(request):
+    if not (request.user.is_authenticated() and request.user.is_staff):
+        return HttpResponseForbidden()
+
+    admins_list = User.objects.filter(is_staff=True)
+
+    tmp_list = []
+    for admin in admins_list:
+        try:
+            tutor = model_to_dict(Tutor.objects.get(user=admin))
+        except Tutor.DoesNotExist:
+            tutor = {'user': admin.id}
+        tmp_list.append(tutor)
+    admins_list = tmp_list
+
+    admins_list = chase_subjects(admins_list)
+    admins_list = chase_users(admins_list)
+
+    return HttpResponse(
+        json.dumps(
+            admins_list,
             cls=DjangoJSONEncoder
         ),
         content_type='application/json'

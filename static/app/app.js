@@ -53,6 +53,10 @@ define([ // jshint ignore:line
                 url: '/edittutees',
                 controller: 'LCSTutoringApp.controllers.EditTuteesController',
                 templateUrl: '/static/app/partials/edit-tutees.html'
+            }).state('manageAdmins', {
+                url: '/editadmins',
+                controller: 'LCSTutoringApp.controllers.EditAdminsController',
+                templateUrl: '/static/app/partials/edit-admins.html'
             });
 
         $locationProvider.html5Mode(true);

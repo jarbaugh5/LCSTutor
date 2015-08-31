@@ -1,0 +1,60 @@
+<div class="lcs-container">
+    <div class="lcs-header text-center">
+        <div>
+            <button class="btn btn-default btn-lg lcs-header-home-btn"
+                    ng-click="goHome()">
+                Home
+            </button>
+        </div>
+
+        <div>
+            <img class="lcs-header-icon" src="/static/img/logo_quarter.png">
+        </div>
+
+        <span class="lcs-header-text"></span>
+    </div>
+
+    <div class="lcs-body text-center">
+        <div class="et-all-outer-container-admin">
+            <p class="et-all-title">All Admins:</p>
+            <div class="et-all-inner-container">
+                <table class="table">
+                    <tr>
+                        <th>Action</th>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <!--<th>Grade</th>-->
+                        <th>SAT Help?</th>
+                        <th>Subjects</th>
+                        <!--<th>Parent Name</th>-->
+                        <th>Phone</th>
+                        <th>Register Date</th>
+                        <th>Extra Info</th>
+                    </tr>
+
+                    <tr ng-repeat="tutor in tuts" class="text-left et-item-row">
+                        <td>
+                            <div class="et-item-btn-wrapper">
+                                <button class="btn btn-sm btn-default">Edit</button>
+                            </div>
+                            <div class="et-item-btn-wrapper">
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </div>
+                        </td>
+                        <td>{{ tutor.user.first_name }} {{ tutor.user.last_name }}</td>
+                        <td>{{ tutor.gender }}</td>
+                        <td>{{ tutor.sat_help }}</td>
+                        <td>
+                            <span ng-repeat="subject in tutor.subjects track by $index">
+                                {{ subject.name }}<span ng-if="$index < tutor.subjects.length - 1">,</span>
+                            </span>
+                        </td>
+                        <td>{{ tutor.phone }}</td>
+                        <td>Date</td>
+                        <td>{{ tutor.extra_info }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
