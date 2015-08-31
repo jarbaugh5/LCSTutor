@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'LCS',
+    'require',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -88,6 +89,16 @@ STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+STATICFILES_STORAGE = 'require.storage.OptimizedManifestStaticFilesStorage'
+
+REQUIRE_BASE_URL = '.'
+
+REQUIRE_JS = 'vendor/requirejs/require.js'
+
+REQUIRE_BUILD_PROFILE = 'app/app.build.js'
+
+REQUIRE_DEBUG = False
 
 TEMPLATES = [
     {

@@ -1,20 +1,37 @@
 <!DOCTYPE html>
 <html>
+{% load staticfiles %}
+{% load require %}
 <head lang="en">
     <meta charset="UTF-8">
     <title>LCS Tutoring</title>
 
     <base href="/">
 
-    <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/static/css/styles.css"/>
+    <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
 
-    <script data-main="/static/app/main" src="/static/vendor/requirejs/require.js"></script>
+    {% require_module 'app/main' %}
+    {% require_module 'app/services' %}
 
     <script type="text/javascript">
         {% autoescape off %}
         window.lcs_user = {{ user_details}};
         {% endautoescape %}
+
+        <!-- A hack to get require.js module loading to play along with -->
+        <!-- md5 cache busting provided by django-require and manifest storage -->
+        window.lcsFilepaths = {};
+        window.lcsFilepaths.angular = "{% static 'bower_components/angular/angular.min.js' %}";
+        window.lcsFilepaths.uiRouter = "{% static 'bower_components/angular-ui-router/release/angular-ui-router.min.js' %}";
+        window.lcsFilepaths.ngCookies = "{% static 'bower_components/angular-cookies/angular-cookies.min.js' %}";
+        window.lcsFilepaths.bootstrap = "{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}";
+        window.lcsFilepaths.jQuery = "{% static 'bower_components/jquery/dist/jquery.min.js' %}";
+
+        window.lcsFilepaths.app = "{% static 'app/app.js' %}";
+        window.lcsFilepaths.services = "{% static 'app/services.js' %}";
+        window.lcsFilepaths.controllers = "{% static 'app/controllers.js' %}";
+        window.lcsFilepaths.templates = "{% static 'js/templates.js' %}";
     </script>
 </head>
 <body>

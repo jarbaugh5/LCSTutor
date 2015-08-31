@@ -6,8 +6,9 @@ define([ // jshint ignore:line
     'controllers',
     'jQuery',
     'bootstrap',
+    'templates',
 ], function (angular) {
-    var app = angular.module('LCSTutoringApp', ['ui.router', 'LCSTutoringApp.controllers']);
+    var app = angular.module('LCSTutoringApp', ['ui.router', 'LCSTutoringApp.controllers', 'templates-main']);
 
     app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
