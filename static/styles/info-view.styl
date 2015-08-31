@@ -4,9 +4,11 @@
 
 .iv-info-container
   width 450px
+  min-width 450px
   height auto
-  margin-right auto
+
   margin-left auto
+  margin-right auto
 
   border-radius default-border-radius
   border 3px solid bg-border-color
@@ -22,3 +24,25 @@
 
     .iv-info-val
       float right
+
+.iv-info-admin-links
+  width 450px
+  min-width 450px
+  height auto
+
+  @media (min-width: 900px)
+    float left
+    margin-left auto
+
+  @media (max-width: 900px)
+    margin-left auto
+    margin-right auto
+
+.iv-admin-options-title
+  font-size 24px
+
+.iv-admin-options-btn
+  width 180px
+  margin-left auto
+  margin-right auto
+  margin-top 12px

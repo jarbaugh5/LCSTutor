@@ -15,6 +15,39 @@
     </div>
 
     <div class="lcs-body text-center">
+        <div ng-if="is_staff" class="iv-info-admin-links text-center">
+            <p class="iv-admin-options-title">Administrator Options:</p>
+
+            <div>
+                <button class="btn btn-default btn-lg iv-admin-options-btn">
+                    Make Matches
+                </button>
+            </div>
+
+            <div>
+                <button class="btn btn-default btn-lg iv-admin-options-btn">
+                    View/Edit Tutees
+                </button>
+            </div>
+
+            <div>
+                <button class="btn btn-default btn-lg iv-admin-options-btn">
+                    View/Edit Tutors
+                </button>
+            </div>
+
+            <div>
+                <button class="btn btn-default btn-lg iv-admin-options-btn">
+                    Manage Admins
+                </button>
+            </div>
+
+            <div>
+                <button class="btn btn-default btn-lg iv-admin-options-btn">
+                    View Matches
+                </button>
+            </div>
+        </div>
         <div class="iv-info-container">
             <div class="iv-info-wrapper text-left">
                 <strong>Name: <span class="iv-info-val">{{ tutee.info.user.first_name }} {{ tutee.info.user.last_name }}</span></strong>

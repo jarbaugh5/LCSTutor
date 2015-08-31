@@ -18,6 +18,7 @@ def app(request):
     if request.user.is_authenticated():
         details = model_to_dict(request.user, fields=['username', 'first_name', 'last_name', 'email'])
         details['is_tutee'] = request.user.tutee_set.count() == 1
+        details['is_staff'] = request.user.is_staff
         reqContext = RequestContext(request, {
             'user_details': json.dumps(details, cls=DjangoJSONEncoder)
         })

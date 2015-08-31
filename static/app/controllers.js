@@ -195,6 +195,8 @@ define([ // jshint ignore:line
                 $state.go('landingPage');
             }
 
+            $scope.is_staff = UserInfo.user.is_staff;
+
             $scope.logout = function () {
                 $window.location.href = '/logout';
             };

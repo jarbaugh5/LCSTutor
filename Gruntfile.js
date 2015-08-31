@@ -20,12 +20,17 @@ module.exports = function (grunt) {
                 src: ['static/app/partials/**/*.html'],
                 dest: 'static/js/templates.js'
             }
+        },
+        watch: {
+            files: ['static/styles/**/*.styl', 'static/app/partials/**/*.html'],
+            tasks: ['build']
         }
     });
 
     //grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-stylus');
     grunt.loadNpmTasks('grunt-html2js');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('build', ['stylus', 'html2js']);
 };
