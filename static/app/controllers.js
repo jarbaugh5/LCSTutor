@@ -247,9 +247,40 @@ define([ // jshint ignore:line
                 $state.go('home');
             };
 
-            $scope.tutors = Tutor.getAllTutors(
+            $scope.tuts = null;
+            Tutor.getAllTutors(
                 function cb(data) {
-                    $scope.tutors = data;
+                    $scope.tuts = data;
+                },
+                function err() {
+                    console.error('Unable to get all tutors');
+                }
+            );
+        }]);
+
+    controllers.controller('LCSTutoringApp.controllers.EditTuteesController', [
+        '$scope',
+        'LCSTutoring.services.UserInfo',
+        'LCSTutoring.services.Tutee',
+        '$state',
+        '$window',
+        function ($scope, UserInfo, Tutee, $state, $window) {
+            if (!(UserInfo.hasInfo && UserInfo.user.is_staff)) {
+                $state.go('home');
+            }
+
+            $scope.logout = function () {
+                $window.location.href = '/logout';
+            };
+
+            $scope.goHome = function () {
+                $state.go('home');
+            };
+
+            $scope.tuts = null;
+            Tutee.getAllTutees(
+                function cb(data) {
+                    $scope.tuts = data;
                 },
                 function err() {
                     console.error('Unable to get all tutors');

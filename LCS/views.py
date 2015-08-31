@@ -225,3 +225,22 @@ def get_all_tutors(request):
         ),
         content_type='application/json'
     )
+
+
+def get_all_tutees(request):
+    if not (request.user.is_authenticated() and request.user.is_staff):
+        return HttpResponseForbidden()
+
+    tutees = Tutee.objects.all()
+    tutees_list = [model_to_dict(tutee) for tutee in tutees]
+
+    tutees_list = chase_subjects(tutees_list)
+    tutees_list = chase_users(tutees_list)
+
+    return HttpResponse(
+        json.dumps(
+            tutees_list,
+            cls=DjangoJSONEncoder
+        ),
+        content_type='application/json'
+    )
