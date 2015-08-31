@@ -44,6 +44,11 @@ define([ // jshint ignore:line
                 url: '/thankyou',
                 controller: 'LCSTutoringApp.controllers.PostSignupController',
                 templateUrl: '/static/app/partials/post-signup.html'
+            })
+            .state('editTutors', {
+                url: '/edittutors',
+                controller: 'LCSTutoringApp.controllers.EditTutorsController',
+                templateUrl: '/static/app/partials/edit-tutors.html'
             });
 
         $locationProvider.html5Mode(true);

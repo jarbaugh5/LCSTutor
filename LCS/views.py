@@ -147,14 +147,8 @@ def get_tutee_info(request):
     tutee = Tutee.objects.get(user=request.user)
     tutee_dict = model_to_dict(tutee)
 
-    # Chase user foreign key
-    tutee_dict['user'] = model_to_dict(request.user, fields=['first_name', 'last_name', 'username', 'email'])
-
-    # Chase subjects foreign keys
-    subjects = []
-    for sub_id in tutee_dict['subjects']:
-        subjects.append(model_to_dict(Subject.objects.get(id=sub_id)))
-    tutee_dict['subjects'] = subjects
+    tutee_dict = chase_users(tutee_dict)
+    tutee_dict = chase_subjects(tutee_dict)
 
     return HttpResponse(
         json.dumps(
@@ -172,18 +166,61 @@ def get_tutor_info(request):
     tutor = Tutor.objects.get(user=request.user)
     tutor_dict = model_to_dict(tutor)
 
-    # Chase user foreign key
-    tutor_dict['user'] = model_to_dict(request.user, fields=['first_name', 'last_name', 'username', 'email'])
-
-    # Chase subjects foreign keys
-    subjects = []
-    for sub_id in tutor_dict['subjects']:
-        subjects.append(model_to_dict(Subject.objects.get(id=sub_id)))
-    tutor_dict['subjects'] = subjects
+    tutor_dict = chase_users(tutor_dict)
+    tutor_dict = chase_subjects(tutor_dict)
 
     return HttpResponse(
         json.dumps(
             tutor_dict,
+            cls=DjangoJSONEncoder
+        ),
+        content_type='application/json'
+    )
+
+
+def chase_subjects(tut):
+    """
+    Chase the subject foreign keys in dicts and replace them with Subject model dicts
+    :param tut: tutee/tutor dict of list of tutee/tutor dicts
+    :return:
+    """
+    if type(tut) == list:
+        for tut_obj in tut:
+            tut_obj['subjects'] = [model_to_dict(Subject.objects.get(id=sub_id)) for sub_id in tut_obj['subjects']]
+    elif type(tut) == dict:
+        tut['subjects'] = [model_to_dict(Subject.objects.get(id=sub_id)) for sub_id in tut['subjects']]
+    return tut
+
+
+def chase_users(obj):
+    if type(obj) == list:
+        for u_obj in obj:
+            replace_user(u_obj)
+    elif type(obj) == dict:
+        replace_user(obj)
+    return obj
+
+
+def replace_user(obj):
+    obj['user'] = model_to_dict(
+        User.objects.get(id=obj['user']),
+        fields=['username', 'email', 'first_name', 'last_name']
+    )
+
+
+def get_all_tutors(request):
+    if not (request.user.is_authenticated() and request.user.is_staff):
+        return HttpResponseForbidden()
+
+    tutors = Tutor.objects.all()
+    tutors_list = [model_to_dict(tutor) for tutor in tutors]
+
+    tutors_list = chase_subjects(tutors_list)
+    tutors_list = chase_users(tutors_list)
+
+    return HttpResponse(
+        json.dumps(
+            tutors_list,
             cls=DjangoJSONEncoder
         ),
         content_type='application/json'

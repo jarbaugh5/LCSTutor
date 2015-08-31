@@ -114,6 +114,17 @@ define([ // jshint ignore:line
                     console.error('Unable to get tutee info');
                 });
 
+            service.getAllTutors = function (cb, err) {
+                $http.post('/getalltutors')
+                    .success(function (data) {
+                        console.log(data);
+                        cb(data);
+                    })
+                    .error(function () {
+                        err();
+                    });
+            };
+
             return service;
         }
     ]);

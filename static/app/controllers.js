@@ -228,5 +228,34 @@ define([ // jshint ignore:line
             };
         }]);
 
+    controllers.controller('LCSTutoringApp.controllers.EditTutorsController', [
+        '$scope',
+        'LCSTutoring.services.UserInfo',
+        'LCSTutoring.services.Tutor',
+        '$state',
+        '$window',
+        function ($scope, UserInfo, Tutor, $state, $window) {
+            if (!(UserInfo.hasInfo && UserInfo.user.is_staff)) {
+                $state.go('home');
+            }
+
+            $scope.logout = function () {
+                $window.location.href = '/logout';
+            };
+
+            $scope.goHome = function () {
+                $state.go('home');
+            };
+
+            $scope.tutors = Tutor.getAllTutors(
+                function cb(data) {
+                    $scope.tutors = data;
+                },
+                function err() {
+                    console.error('Unable to get all tutors');
+                }
+            );
+        }]);
+
     return controllers;
 });
