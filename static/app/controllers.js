@@ -5,11 +5,13 @@ define([ // jshint ignore:line
     'ngCookies',
     'services',
     'uiRouter',
+    'uiBootstrap',
 ], function (angular) {
     var controllers = angular.module('LCSTutoringApp.controllers', [
         'ngCookies',
         'LCSTutoring.services',
-        'ui.router'
+        'ui.router',
+        'ui.bootstrap'
     ]);
 
     controllers.controller('LCSTutoringApp.controllers.LandingPageController', [
@@ -294,7 +296,8 @@ define([ // jshint ignore:line
         'LCSTutoring.services.Tutor',
         '$state',
         '$window',
-        function ($scope, UserInfo, Tutor, $state, $window) {
+        '$modal',
+        function ($scope, UserInfo, Tutor, $state, $window, $modal) {
             if (!(UserInfo.hasInfo && UserInfo.user.is_staff)) {
                 $state.go('home');
             }
@@ -316,6 +319,103 @@ define([ // jshint ignore:line
                     console.error('Unable to get all tutors');
                 }
             );
+
+            $scope.editAdmin = function (user) {
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/static/app/partials/edit-user-modal.html',
+                    controller: 'LCSTutoringApp.controllers.EditUserModalController',
+                    size: 'md',
+                    resolve: {
+                        user: function () {
+                            return user;
+                        },
+                        userType: function () {
+                            return 'Admin';
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function okay(okayString) {
+
+                }, function dismiss() {
+
+                });
+            };
+
+            $scope.deleteAdmin = function (user) {
+                if ($window.confirm('Are you sure you want to remove ' + user.user.first_name +
+                    ' as an admin?')) {
+                    console.log('deleting admin...');
+                    // TODO: implement this:
+                    //Tutur.deleteTutuor();
+                }
+            };
+        }]);
+
+    controllers.controller('LCSTutoringApp.controllers.EditUserModalController', [
+        '$scope',
+        '$modalInstance',
+        'LCSTutoring.services.Subjects',
+        'LCSTutoring.services.Tutor',
+        'user',
+        'userType',
+        '$window',
+        function ($scope, $modalInstance, Subjects, Tutor, user, userType, $window) {
+
+            $scope.user = user;
+            $scope.userType = userType;
+
+            $scope.subjectChoices = Subjects.subjects;
+
+            $scope.$watch(function () {
+                return JSON.stringify($scope.subjectChoices);
+            }, function () {
+                if ($scope.subjectChoices.length > 0) {
+                    preSelectSubjects();
+                }
+            });
+
+            var preSelectSubjects = function () {
+                var preSelectedSubjects = [];
+                $scope.user.subjects.forEach(function (userSub) {
+                    $scope.subjectChoices.forEach(function (subChoice) {
+                        if (subChoice.id === userSub.id) {
+                            preSelectedSubjects.push(subChoice);
+                        }
+                    });
+                });
+                $scope.user.subjects = preSelectedSubjects;
+            };
+
+
+            var getSubmittableUser = function (user) {
+                // Copy the user object
+                var newUser = JSON.parse(JSON.stringify(user));
+
+                // Prepare subjects field
+                newUser.subjects = newUser.subjects.map(function (subObj) {
+                    return subObj.id;
+                });
+
+                // TODO: Prepare user field if need be
+                return newUser;
+            };
+
+            $scope.ok = function () {
+                Tutor.saveTutor(getSubmittableUser($scope.user), function () {
+                    console.log('updated');
+                }, function () {
+                    $window.alert('Sorry, but there was an error updating this admin account.' +
+                    ' Please refresh the page and try again.');
+                    console.error('error updating admin');
+                });
+                $modalInstance.close();
+            };
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
         }]);
 
     return controllers;

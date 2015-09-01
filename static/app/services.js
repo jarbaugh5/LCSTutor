@@ -109,7 +109,8 @@ define([ // jshint ignore:line
 
     services.service('LCSTutoring.services.Tutor', [
         '$http',
-        function ($http) {
+        '$httpParamSerializer',
+        function ($http, $httpParamSerializer) {
             var service = {};
 
             /* Expose data using two pointers so we don't have to $watch it later */
@@ -131,6 +132,20 @@ define([ // jshint ignore:line
                     .success(function (data) {
                         console.log(data);
                         cb(data);
+                    })
+                    .error(function () {
+                        err();
+                    });
+            };
+
+            service.saveTutor = function (tutor, cb, err) {
+                $http.post('/updatetutor',
+                    $httpParamSerializer(tutor),
+                    {
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .success(function () {
+                        cb();
                     })
                     .error(function () {
                         err();

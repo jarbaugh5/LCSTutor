@@ -19,5 +19,6 @@ urlpatterns = patterns('',
     url(r'^getalltutors', get_all_tutors),
     url(r'^getalltutees', get_all_tutees),
     url(r'^getalladmins', get_all_admins),
+    url(r'^updatetutor', update_tutor),
     url(r'', index),
 )

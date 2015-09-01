@@ -273,3 +273,42 @@ def get_all_admins(request):
         ),
         content_type='application/json'
     )
+
+
+def update_tutor(request):
+    if not (request.user.is_authenticated() and request.user.is_staff):
+        return HttpResponseForbidden()
+
+    tutor_form = TutorForm(request.POST)
+
+    if not tutor_form.is_valid():
+        return HttpResponseBadRequest()
+
+    # Should only be one, but this allows the update method
+    matches = Tutor.objects.filter(id=request.POST['id'])
+
+    matches.update(**{
+        'extra_info': tutor_form.cleaned_data['extra_info'],
+        'gender': tutor_form.cleaned_data['gender'],
+        'phone': tutor_form.cleaned_data['phone'],
+        'sat_help': tutor_form.cleaned_data['sat_help']
+    })  # Can't just unpack the cleaned data b/c subjects is a m2m field :/
+
+    tutor = Tutor.objects.get(id=request.POST['id'])
+
+    curr_subjects = tutor.subjects
+    for subject in curr_subjects.all():
+        if subject not in tutor_form.cleaned_data['subjects']:
+            tutor.subjects.remove(subject)
+
+    for subject in tutor_form.cleaned_data['subjects']:
+        tutor.subjects.add(subject)
+
+
+    # TODO update user object related fields as well
+    user = tutor.user
+    user.first_name = request.POST['first_name']
+    user.last_name = request.POST['last_name']
+    user.save()
+
+    return HttpResponse()

@@ -35,10 +35,10 @@
                     <tr ng-repeat="tutor in tuts" class="text-left et-item-row">
                         <td>
                             <div class="et-item-btn-wrapper">
-                                <button class="btn btn-sm btn-default">Edit</button>
+                                <button class="btn btn-sm btn-default" ng-click="editAdmin(tutor)">Edit</button>
                             </div>
                             <div class="et-item-btn-wrapper">
-                                <button class="btn btn-sm btn-danger">Delete</button>
+                                <button class="btn btn-sm btn-danger" ng-click="deleteAdmin(tutor)">Delete</button>
                             </div>
                         </td>
                         <td>{{ tutor.user.first_name }} {{ tutor.user.last_name }}</td>
