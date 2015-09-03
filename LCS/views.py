@@ -337,3 +337,25 @@ def revoke_admin(request):
     user_to_revoke.save()
 
     return HttpResponse()
+
+
+def add_admin(request):
+    if not (request.user.is_authenticated() and request.user.is_staff):
+        return HttpResponseForbidden()
+
+    try:
+        tutor_id = int(request.POST['id'])
+    except (KeyError, ValueError) as e:
+        return HttpResponseBadRequest('No valid user ID provided')
+
+    try:
+        tutor_to_promote = Tutor.objects.get(id=tutor_id)
+    except Tutor.DoesNotExist:
+        return HttpResponseBadRequest('User does not exist')
+
+    user_to_promote = tutor_to_promote.user
+
+    user_to_promote.is_staff = True
+    user_to_promote.save()
+
+    return HttpResponse()

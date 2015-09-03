@@ -343,11 +343,42 @@ define([ // jshint ignore:line
                 });
             };
 
+            $scope.addNewAdmin = function () {
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/static/app/partials/new-admin-modal.html',
+                    controller: 'LCSTutoringApp.controllers.NewAdminModalController',
+                    size: 'md',
+                    resolve: {}
+                });
+
+                modalInstance.result.then(function okay() {
+                    Tutor.getAllAdmins(
+                        function cb(data) {
+                            $scope.tuts = data;
+                        },
+                        function err() {
+                            console.error('Unable to get all tutors');
+                        }
+                    );
+                }, function dismiss() {
+
+                });
+            };
+
             $scope.revokeAdmin = function (user) {
                 if ($window.confirm('Are you sure you want to remove ' + user.user.first_name +
                     ' as an admin?')) {
                     Tutor.revokeAdmin(user, function () {
                         console.log('Revoked admin privileges for ' + user.user.first_name + '.');
+                        Tutor.getAllAdmins(
+                            function cb(data) {
+                                $scope.tuts = data;
+                            },
+                            function err() {
+                                console.error('Unable to get all tutors');
+                            }
+                        );
                     }, function (error) {
                         $window.alert('Failed to revoke admin privileges for ' + user.user.first_name +
                         ' with error: ' + error);
@@ -419,6 +450,33 @@ define([ // jshint ignore:line
 
             $scope.cancel = function () {
                 $modalInstance.dismiss('cancel');
+            };
+        }]);
+
+    controllers.controller('LCSTutoringApp.controllers.NewAdminModalController', [
+        '$scope',
+        '$modalInstance',
+        '$window',
+        'LCSTutoring.services.Tutor',
+        function ($scope, $modalInstance, $window, Tutor) {
+
+            $scope.tutorList = Tutor.getAllTutors(function (data) {
+                $scope.tutorList = data;
+            }, function () {
+                console.error('Unable to fetch tutors');
+            });
+
+            $scope.addAdmin = function (newAdmin) {
+                Tutor.addAdmin(newAdmin, function () {
+                    console.log('New admin added successfully');
+                    $modalInstance.close();
+                }, function () {
+                    console.error('Unable to add new admin');
+                });
+            };
+
+            $scope.close = function () {
+                $modalInstance.dismiss();
             };
         }]);
 

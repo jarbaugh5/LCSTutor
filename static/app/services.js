@@ -177,6 +177,20 @@ define([ // jshint ignore:line
                     });
             };
 
+            service.addAdmin = function (user, cb, err) {
+                $http.post('/addadmin',
+                    $httpParamSerializer(user),
+                    {
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .success(function () {
+                        cb();
+                    })
+                    .error(function () {
+                        err();
+                    });
+            };
+
             return service;
         }
     ]);

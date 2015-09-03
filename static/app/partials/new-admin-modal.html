@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add New Admin</h3>
+</div>
+<div class="modal-body">
+    <table class="table">
+        <tr>
+            <th>
+                Action
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+        </tr>
+
+        <tr ng-repeat="tutor in tutorList">
+            <td>
+                <button class="btn btn-default" ng-click="addAdmin(tutor)">Make Admin</button>
+            </td>
+            <td>
+                {{ tutor.user.username }}
+            </td>
+            <td>
+                {{ tutor.user.first_name }}
+            </td>
+            <td>
+                {{ tutor.user.last_name }}
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="close()">Close</button>
+</div>
