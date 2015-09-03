@@ -163,6 +163,20 @@ define([ // jshint ignore:line
                     });
             };
 
+            service.revokeAdmin = function (user, cb, err) {
+                $http.post('/revokeadmin',
+                    $httpParamSerializer(user),
+                    {
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .success(function () {
+                        cb();
+                    })
+                    .error(function (error) {
+                        err(error);
+                    });
+            };
+
             return service;
         }
     ]);

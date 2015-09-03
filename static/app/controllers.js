@@ -343,12 +343,16 @@ define([ // jshint ignore:line
                 });
             };
 
-            $scope.deleteAdmin = function (user) {
+            $scope.revokeAdmin = function (user) {
                 if ($window.confirm('Are you sure you want to remove ' + user.user.first_name +
                     ' as an admin?')) {
-                    console.log('deleting admin...');
-                    // TODO: implement this:
-                    //Tutur.deleteTutuor();
+                    Tutor.revokeAdmin(user, function () {
+                        console.log('Revoked admin privileges for ' + user.user.first_name + '.');
+                    }, function (error) {
+                        $window.alert('Failed to revoke admin privileges for ' + user.user.first_name +
+                        ' with error: ' + error);
+                        console.error('Failed to revoke admin privileges for ' + user.user.first_name + '.');
+                    });
                 }
             };
         }]);

@@ -312,3 +312,28 @@ def update_tutor(request):
     user.save()
 
     return HttpResponse()
+
+
+def revoke_admin(request):
+    if not (request.user.is_authenticated() and request.user.is_staff):
+        return HttpResponseForbidden()
+
+    try:
+        tutor_id = int(request.POST['id'])
+    except (KeyError, ValueError) as e:
+        return HttpResponseBadRequest('No valid user ID provided')
+
+    try:
+        tutor_to_revoke = Tutor.objects.get(id=tutor_id)
+    except Tutor.DoesNotExist:
+        return HttpResponseBadRequest('User does not exist')
+
+    user_to_revoke = tutor_to_revoke.user
+
+    if user_to_revoke.is_superuser:
+        return HttpResponseBadRequest('User\'s privileges can not be revoked')
+
+    user_to_revoke.is_staff = False
+    user_to_revoke.save()
+
+    return HttpResponse()
