@@ -304,11 +304,10 @@ def update_tutor(request):
     for subject in tutor_form.cleaned_data['subjects']:
         tutor.subjects.add(subject)
 
-
-    # TODO update user object related fields as well
     user = tutor.user
-    user.first_name = request.POST['first_name']
-    user.last_name = request.POST['last_name']
+    user_data = json.loads(request.POST['user'])
+    user.first_name = user_data['first_name']
+    user.last_name = user_data['last_name']
     user.save()
 
     return HttpResponse()

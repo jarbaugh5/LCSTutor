@@ -236,7 +236,8 @@ define([ // jshint ignore:line
         'LCSTutoring.services.Tutor',
         '$state',
         '$window',
-        function ($scope, UserInfo, Tutor, $state, $window) {
+        '$modal',
+        function ($scope, UserInfo, Tutor, $state, $window, $modal) {
             if (!(UserInfo.hasInfo && UserInfo.user.is_staff)) {
                 $state.go('home');
             }
@@ -258,6 +259,29 @@ define([ // jshint ignore:line
                     console.error('Unable to get all tutors');
                 }
             );
+
+            $scope.editTutor = function (user) {
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/static/app/partials/edit-user-modal.html',
+                    controller: 'LCSTutoringApp.controllers.EditUserModalController',
+                    size: 'md',
+                    resolve: {
+                        user: function () {
+                            return user;
+                        },
+                        userType: function () {
+                            return 'Tutor';
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function okay() {
+
+                }, function dismiss() {
+
+                });
+            };
         }]);
 
     controllers.controller('LCSTutoringApp.controllers.EditTuteesController', [
@@ -441,9 +465,9 @@ define([ // jshint ignore:line
                 Tutor.saveTutor(getSubmittableUser($scope.user), function () {
                     console.log('updated');
                 }, function () {
-                    $window.alert('Sorry, but there was an error updating this admin account.' +
+                    $window.alert('Sorry, but there was an error updating this account.' +
                     ' Please refresh the page and try again.');
-                    console.error('error updating admin');
+                    console.error('error updating account');
                 });
                 $modalInstance.close();
             };
