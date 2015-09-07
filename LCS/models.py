@@ -58,3 +58,18 @@ class Tutor(models.Model):
     gender = models.CharField(max_length=128)
     # grade = models.CharField(max_length=128, choices=GRADES)
     extra_info = models.TextField()
+
+
+class Match(models.Model):
+    tutor = models.ForeignKey(Tutor, related_name='matches')
+    tutee = models.ForeignKey(Tutee, related_name='matches')
+
+    tutor_email_sent = models.BooleanField(default=False)
+    tutee_email_sent = models.BooleanField(default=False)
+
+    tutor_email_date = models.DateTimeField(null=True)
+    tutee_email_date = models.DateTimeField(null=True)
+
+    # Used for storing error reports if emails fail to send
+    tutor_email_error = models.TextField(null=True)
+    tutee_email_error = models.TextField(null=True)

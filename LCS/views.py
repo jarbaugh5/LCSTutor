@@ -7,10 +7,14 @@ from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 
 import json
+import smtplib
 
-from .models import Tutee, Subject, Tutor
+from datetime import datetime
+
+from .models import Tutee, Subject, Tutor, Match
 from .forms import TuteeForm, TutorForm
 
 
@@ -149,6 +153,7 @@ def get_tutee_info(request):
 
     tutee_dict = chase_users(tutee_dict)
     tutee_dict = chase_subjects(tutee_dict)
+    tutee_dict = chase_matches(tutee_dict, Tutee)
 
     return HttpResponse(
         json.dumps(
@@ -168,6 +173,7 @@ def get_tutor_info(request):
 
     tutor_dict = chase_users(tutor_dict)
     tutor_dict = chase_subjects(tutor_dict)
+    tutor_dict = chase_matches(tutor_dict, Tutor)
 
     return HttpResponse(
         json.dumps(
@@ -203,6 +209,15 @@ def chase_users(obj):
     return obj
 
 
+def chase_matches(obj, manager):
+    if type(obj) == list:
+        for u_obj in obj:
+            u_obj['matches'] = [model_to_dict(match) for match in manager.objects.get(id=u_obj['id']).matches.all()]
+    elif type(obj) == dict:
+        obj['matches'] = [model_to_dict(match) for match in manager.objects.get(id=obj['id']).matches.all()]
+    return obj
+
+
 def replace_user(obj):
     obj['user'] = model_to_dict(
         User.objects.get(id=obj['user']),
@@ -219,6 +234,7 @@ def get_all_tutors(request):
 
     tutors_list = chase_subjects(tutors_list)
     tutors_list = chase_users(tutors_list)
+    tutors_list = chase_matches(tutors_list, Tutor)
 
     return HttpResponse(
         json.dumps(
@@ -238,6 +254,7 @@ def get_all_tutees(request):
 
     tutees_list = chase_subjects(tutees_list)
     tutees_list = chase_users(tutees_list)
+    tutees_list = chase_matches(tutees_list, Tutee)
 
     return HttpResponse(
         json.dumps(
@@ -265,6 +282,7 @@ def get_all_admins(request):
 
     admins_list = chase_subjects(admins_list)
     admins_list = chase_users(admins_list)
+    admins_list = chase_matches(admins_list, Tutor)
 
     return HttpResponse(
         json.dumps(
@@ -358,3 +376,48 @@ def add_admin(request):
     user_to_promote.save()
 
     return HttpResponse()
+
+
+def make_match(request):
+    if not (request.user.is_authenticated() and request.user.is_staff):
+        return HttpResponseForbidden()
+
+    try:
+        tutor_id = int(request.POST['tutorId'])
+        tutee_id = int(request.POST['tuteeId'])
+
+        tutor_email = request.POST['tutorEmail']
+        tutee_email = request.POST['tuteeEmail']
+    except (KeyError, ValueError) as e:
+        return HttpResponseBadRequest()
+
+    tutor = Tutor.objects.get(id=tutor_id)
+    tutee = Tutee.objects.get(id=tutee_id)
+
+    match, _ = Match.objects.get_or_create(tutor=tutor, tutee=tutee)
+
+    try:
+        send_mail('LCS Tutoring Match', tutor_email, 'lcstutoringtech@gmail.com', [tutor.user.email], fail_silently=False)
+        match.tutor_email_sent = True
+        match.tutor_email_date = datetime.now()
+        match.tutor_email_error = None
+    except smtplib.SMTPException as e:
+        match.tutor_email_error = str(e)
+
+    try:
+        send_mail('LCS Tutoring Match', tutee_email, 'lcstutoringtech@gmail.com', [tutee.user.email], fail_silently=False)
+        match.tutee_email_sent = True
+        match.tutee_email_date = datetime.now()
+        match.tutee_email_error = None
+    except smtplib.SMTPException as e:
+        match.tutee_email_error = str(e)
+
+    match.save()
+
+    return HttpResponse(
+        json.dumps(
+            model_to_dict(match),
+            cls=DjangoJSONEncoder
+        ),
+        content_type='application/json'
+    )

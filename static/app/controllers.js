@@ -504,5 +504,189 @@ define([ // jshint ignore:line
             };
         }]);
 
+    controllers.controller('LCSTutoringApp.controllers.MakeMatchesController', [
+        '$scope',
+        'LCSTutoring.services.UserInfo',
+        'LCSTutoring.services.Tutor',
+        'LCSTutoring.services.Tutee',
+        '$state',
+        '$window',
+        '$modal',
+        function ($scope, UserInfo, Tutor, Tutee, $state, $window, $modal) {
+            if (!(UserInfo.hasInfo && UserInfo.user.is_staff)) {
+                $state.go('home');
+            }
+
+            $scope.goHome = function () {
+                $state.go('home');
+            };
+
+            $scope.tutees = null;
+            Tutee.getAllTutees(
+                function cb(data) {
+                    $scope.tutees = data;
+                },
+                function err() {
+                    console.error('Unable to get all tutees');
+                }
+            );
+
+            $scope.tutors = null;
+            Tutor.getAllTutors(
+                function cb(data) {
+                    $scope.tutors = data;
+                },
+                function err() {
+                    console.error('Unable to get all tutors');
+                }
+            );
+
+            $scope.tutorToMatch = null;
+            $scope.tuteeToMatch = null;
+
+            $scope.tutorFilterCriteria = {
+                gender: null,
+                sat_help: null,
+                showAlreadyMatched: false
+            };
+
+            $scope.tuteeFilterCriteria = {
+                gender: null,
+                sat_help: null,
+                showAlreadyMatched: false
+            };
+
+            $scope.tutFilter = function (tut, criteria) {
+                // Initialize to true in case there is no pertinent criteria
+                var genderMatches = true;
+                var satMatches = true;
+                var matched = true;
+
+                if (criteria.gender !== null) {
+                    genderMatches = tut.gender === criteria.gender;
+
+                    if (criteria.gender === 'other') {
+                        genderMatches = tut.gender !== 'female' && tut.gender !== 'male';
+                    }
+                }
+
+                if (criteria.sat_help !== null) {
+                    satMatches = tut.sat_help === criteria.sat_help;
+                }
+
+                // Hide matched tutors/tutees
+                if (tut.matches.length > 0) {
+                    matched = false;
+                }
+
+                if (criteria.showAlreadyMatched !== null) {
+                    if (criteria.showAlreadyMatched) {
+                        matched = criteria.showAlreadyMatched;
+                    }
+                }
+
+                return genderMatches && satMatches && matched;
+            };
+
+            $scope.tutorFilter = function (tutor) {
+                return $scope.tutFilter(tutor, $scope.tutorFilterCriteria);
+            };
+
+            $scope.tuteeFilter = function (tutee) {
+                return $scope.tutFilter(tutee, $scope.tuteeFilterCriteria);
+            };
+
+            $scope.makeMatch = function () {
+                if (!$scope.tutorToMatch || !$scope.tuteeToMatch) {
+                    return;
+                }
+
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/static/app/partials/make-match-modal.html',
+                    controller: 'LCSTutoringApp.controllers.MakeMatchModalController',
+                    size: 'lg',
+                    resolve: {
+                        tutor: function () {
+                            return $scope.tutorToMatch;
+                        },
+                        tutee: function () {
+                            return $scope.tuteeToMatch;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function okay(match) {
+                    if (match !== null) {
+                        $scope.tutorToMatch.matches.push(match);
+                        $scope.tuteeToMatch.matches.push(match);
+
+                        $scope.tutorToMatch = null;
+                        $scope.tuteeToMatch = null;
+                    }
+                }, function dismiss() {
+
+                });
+            };
+
+
+        }]);
+
+    controllers.controller('LCSTutoringApp.controllers.MakeMatchModalController', [
+        '$scope',
+        '$modalInstance',
+        '$window',
+        '$compile',
+        'tutor',
+        'tutee',
+        '$templateCache',
+        'LCSTutoring.services.Tutor',
+        function ($scope, $modalInstance, $window, $compile, tutor, tutee, $templateCache, Tutor) {
+
+            $scope.tutor = tutor;
+            $scope.tutee = tutee;
+
+            $scope.tutorEmailTemplate = $templateCache.get('/static/app/partials/tutor-email-template.html');
+            $scope.tuteeEmailTemplate = $templateCache.get('/static/app/partials/tutee-email-template.html');
+
+            $scope.tutorEmail = $compile($scope.tutorEmailTemplate)($scope);
+            $scope.tuteeEmail = $compile($scope.tuteeEmailTemplate)($scope);
+
+
+            // Use timeout of 0 to push to the end of the digest I think..
+            $window.setTimeout(function () {
+                $scope.tutorEmail = $scope.tutorEmail.text();
+                $scope.tuteeEmail = $scope.tuteeEmail.text();
+
+                $scope.$apply();
+            }, 0);
+
+            $scope.matchAndSend = function () {
+                angular.element('.mm-modal-tmpl-outer-container')
+                    .append('<h4 style="float: right">Sending...</h4>');
+                Tutor.makeMatch(
+                    tutor,
+                    $scope.tutorEmail,
+                    tutee,
+                    $scope.tuteeEmail,
+                    function (match) {
+                        if (match.tutor_email_sent && match.tutee_email_sent) { // jshint ignore:line
+                            $modalInstance.close(match);
+                        } else {
+                            $window.alert('There was an error sending emails:\n' +
+                            match.tutor_email_error + '\n' +
+                            match.tutee_email_error);
+                        }
+                    }, function () {
+                        console.log('match failed');
+                        $modalInstance.close(null);
+                    });
+            };
+
+            $scope.close = function () {
+                $modalInstance.dismiss();
+            };
+        }]);
+
     return controllers;
 });

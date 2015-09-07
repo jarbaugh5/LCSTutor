@@ -20,7 +20,8 @@ requirejs.config({ // jshint ignore:line
 
     shim: {
         'angular': {
-            exports: 'angular'
+            exports: 'angular',
+            deps: ['jQuery']
         },
         'uiRouter': {
             deps: ['angular']

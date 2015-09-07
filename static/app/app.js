@@ -57,6 +57,10 @@ define([ // jshint ignore:line
                 url: '/editadmins',
                 controller: 'LCSTutoringApp.controllers.EditAdminsController',
                 templateUrl: '/static/app/partials/edit-admins.html'
+            }).state('makeMatches', {
+                url: '/makematches',
+                controller: 'LCSTutoringApp.controllers.MakeMatchesController',
+                templateUrl: '/static/app/partials/make-matches.html'
             });
 
         $locationProvider.html5Mode(true);

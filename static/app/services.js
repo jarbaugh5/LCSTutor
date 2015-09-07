@@ -191,6 +191,25 @@ define([ // jshint ignore:line
                     });
             };
 
+            service.makeMatch = function (tutor, tutorEmail, tutee, tuteeEmail, cb, err) {
+                $http.post('/makematch',
+                $httpParamSerializer({
+                    tutorId: tutor.id,
+                    tutorEmail: tutorEmail,
+                    tuteeId: tutee.id,
+                    tuteeEmail: tuteeEmail
+                }),
+                    {
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .success(function (match) {
+                        cb(match);
+                    })
+                    .error(function () {
+                        err();
+                    });
+            };
+
             return service;
         }
     ]);
