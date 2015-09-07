@@ -8,6 +8,7 @@ from django.forms.models import model_to_dict
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
 
 import json
 import smtplib
@@ -136,7 +137,7 @@ def tutor_signup(request):
 
         return HttpResponse('Tutor signed up successfully')
 
-
+@csrf_exempt
 def get_subjects(request):
     return HttpResponse(
         json.dumps([model_to_dict(sub) for sub in Subject.objects.all()], cls=DjangoJSONEncoder),
