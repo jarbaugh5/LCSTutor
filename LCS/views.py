@@ -68,6 +68,7 @@ def logout_user(request):
     return app(request)
 
 
+@csrf_exempt
 def tutee_signup(request):
     if request.method == 'GET':
         return app(request)
@@ -103,6 +104,7 @@ def tutee_signup(request):
         return HttpResponse('Tutee signed up successfully')
 
 
+@csrf_exempt
 def tutor_signup(request):
     if request.method == 'GET':
         return app(request)
@@ -136,6 +138,7 @@ def tutor_signup(request):
         tutor_form.save_m2m()  # Required b/c we used commit=False earlier
 
         return HttpResponse('Tutor signed up successfully')
+
 
 @csrf_exempt
 def get_subjects(request):
