@@ -22,6 +22,6 @@ urlpatterns = patterns('',
     url(r'^updatetutor', update_tutor),
     url(r'^revokeadmin', revoke_admin),
     url(r'^addadmin', add_admin),
-    url(r'^makematch', make_match),
+    url(r'^makematch$', make_match),
     url(r'', index),
 )

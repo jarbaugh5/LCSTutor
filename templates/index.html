@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
 
-    {% require_module 'app/main' %}
-    {% require_module 'app/services' %}
-
     <script type="text/javascript">
         {% autoescape off %}
         window.lcs_user = {{ user_details}};
@@ -34,6 +31,9 @@
         window.lcsFilepaths.controllers = "{% static 'app/controllers.js' %}";
         window.lcsFilepaths.templates = "{% static 'js/templates.js' %}";
     </script>
+
+    {% require_module 'app/main' %}
+    {% require_module 'app/services' %}
 </head>
 <body>
     <div ui-view class="lcs-container"></div>
