@@ -36,10 +36,12 @@ def app(request):
     )
 
 
+@csrf_exempt
 def index(request):
     return app(request)
 
 
+@csrf_exempt
 def login_user(request):
     try:
         username = request.POST['username']
@@ -63,6 +65,7 @@ def login_user(request):
     return HttpResponseRedirect('/')
 
 
+@csrf_exempt
 def logout_user(request):
     logout(request)
     return app(request)
@@ -148,6 +151,7 @@ def get_subjects(request):
     )
 
 
+@csrf_exempt
 def get_tutee_info(request):
     if not request.user.is_authenticated():
         return HttpResponseForbidden()
@@ -168,6 +172,7 @@ def get_tutee_info(request):
     )
 
 
+@csrf_exempt
 def get_tutor_info(request):
     if not request.user.is_authenticated():
         return HttpResponseForbidden()
@@ -188,6 +193,7 @@ def get_tutor_info(request):
     )
 
 
+@csrf_exempt
 def chase_subjects(tut):
     """
     Chase the subject foreign keys in dicts and replace them with Subject model dicts
@@ -204,6 +210,7 @@ def chase_subjects(tut):
     return tut
 
 
+@csrf_exempt
 def chase_users(obj):
     if type(obj) == list:
         for u_obj in obj:
@@ -213,6 +220,7 @@ def chase_users(obj):
     return obj
 
 
+@csrf_exempt
 def chase_matches(obj, manager):
     if type(obj) == list:
         for u_obj in obj:
@@ -222,6 +230,7 @@ def chase_matches(obj, manager):
     return obj
 
 
+@csrf_exempt
 def replace_user(obj):
     obj['user'] = model_to_dict(
         User.objects.get(id=obj['user']),
@@ -229,6 +238,7 @@ def replace_user(obj):
     )
 
 
+@csrf_exempt
 def get_all_tutors(request):
     if not (request.user.is_authenticated() and request.user.is_staff):
         return HttpResponseForbidden()
@@ -249,6 +259,7 @@ def get_all_tutors(request):
     )
 
 
+@csrf_exempt
 def get_all_tutees(request):
     if not (request.user.is_authenticated() and request.user.is_staff):
         return HttpResponseForbidden()
@@ -269,6 +280,7 @@ def get_all_tutees(request):
     )
 
 
+@csrf_exempt
 def get_all_admins(request):
     if not (request.user.is_authenticated() and request.user.is_staff):
         return HttpResponseForbidden()
@@ -297,6 +309,7 @@ def get_all_admins(request):
     )
 
 
+@csrf_exempt
 def update_tutor(request):
     if not (request.user.is_authenticated() and request.user.is_staff):
         return HttpResponseForbidden()
@@ -335,6 +348,7 @@ def update_tutor(request):
     return HttpResponse()
 
 
+@csrf_exempt
 def revoke_admin(request):
     if not (request.user.is_authenticated() and request.user.is_staff):
         return HttpResponseForbidden()
@@ -360,6 +374,7 @@ def revoke_admin(request):
     return HttpResponse()
 
 
+@csrf_exempt
 def add_admin(request):
     if not (request.user.is_authenticated() and request.user.is_staff):
         return HttpResponseForbidden()
@@ -382,6 +397,7 @@ def add_admin(request):
     return HttpResponse()
 
 
+@csrf_exempt
 def make_match(request):
     if not (request.user.is_authenticated() and request.user.is_staff):
         return HttpResponseForbidden()
