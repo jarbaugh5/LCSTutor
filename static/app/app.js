@@ -63,6 +63,13 @@ define([ // jshint ignore:line
                 templateUrl: '/static/app/partials/make-matches.html'
             });
 
+        app.run([
+            '$http',
+            '$cookies',
+            function ($http, $cookies) {
+                $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
+            }]);
+
         $locationProvider.html5Mode(true);
 
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
