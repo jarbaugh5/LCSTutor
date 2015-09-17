@@ -66,7 +66,6 @@ define([ // jshint ignore:line
             $scope.formData.password = '';
             $scope.formData.confirmPassword = '';
             $scope.formData.email = '';
-            $scope.formData.tuteePhone = '';
             $scope.formData.satHelp = false;
             $scope.formData.subjects = [];
             $scope.formData.gender = 'male'; // Choosing one by default
@@ -94,7 +93,6 @@ define([ // jshint ignore:line
                         'password': $scope.formData.password,
                         'confirm_password': $scope.formData.confirmPassword,
                         'email': $scope.formData.email,
-                        'tutee_phone': $scope.formData.tuteePhone,
                         'sat_help': $scope.formData.satHelp,
                         'subjects': $scope.formData.subjects,
                         'gender': $scope.formData.other ? $scope.formData.otherGender : $scope.formData.gender,

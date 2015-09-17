@@ -24,7 +24,6 @@ class Tutee(models.Model):
 
     user = models.ForeignKey(User)
 
-    tutee_phone = models.CharField(max_length=128)
     sat_help = models.BooleanField()
     subjects = models.ManyToManyField(Subject)
     gender = models.CharField(max_length=128)
