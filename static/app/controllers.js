@@ -124,8 +124,21 @@ define([ // jshint ignore:line
                         console.log('Posted tutee signup data');
                         $state.go('postSignup');
                     },
-                    function () {
+                    function (errors) {
                         console.error('Error posting tutee signup data');
+
+                        $scope.errors = [];
+
+                        var keys = Object.keys(errors);
+                        for (var i = 0; i < keys.length; i++) {
+                            var key = keys[i];
+                            if (!errors[key]) continue;
+
+                            $scope.errors.push({
+                                'field': key,
+                                'message': errors[key][0].message
+                            });
+                        }
                     }
                 );
             };
@@ -201,8 +214,21 @@ define([ // jshint ignore:line
                         console.log('Posted tutor signup data');
                         $state.go('postSignup');
                     },
-                    function () {
+                    function (errors) {
                         console.error('Error posting tutee signup data');
+
+                        $scope.errors = [];
+
+                        var keys = Object.keys(errors);
+                        for (var i = 0; i < keys.length; i++) {
+                            var key = keys[i];
+                            if (!errors[key]) continue;
+
+                            $scope.errors.push({
+                                'field': key,
+                                'message': errors[key][0].message
+                            });
+                        }
                     }
                 );
             };

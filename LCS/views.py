@@ -9,6 +9,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
+from django.db import IntegrityError
 
 import json
 import smtplib
@@ -83,20 +84,36 @@ def tutee_signup(request):
         tutee_form = TuteeForm(request.POST)
 
         if pass1 != pass2:
-            # TODO: handle this better
-            return HttpResponseBadRequest('Passwords don\'t match')
+            return HttpResponseBadRequest(json.dumps({
+                'password': [
+                    {
+                        'message': 'The passwords do not match',
+                        'code': 'invalid'
+                    }
+                ]
+            }), content_type='application/json')
 
         if not tutee_form.is_valid():
-            # TODO: handle this better
-            return HttpResponseBadRequest(json.dumps(tutee_form.errors))
+            return HttpResponseBadRequest(tutee_form.errors.as_json(), content_type='application/json')
 
-        user = User.objects.create_user(username=request.POST['username'],
-                                        first_name=request.POST['first_name'],
-                                        last_name=request.POST['last_name'],
-                                        email=request.POST['email'])
+        try:
+            user = User.objects.create_user(username=request.POST['username'],
+                                            first_name=request.POST['first_name'],
+                                            last_name=request.POST['last_name'],
+                                            email=request.POST['email'])
+            user.set_password(pass1)
+            user.save()
+        except IntegrityError as e:
+            return HttpResponseBadRequest(json.dumps({
+                'user': [
+                    {
+                        'message': 'The username or email is already in use',
+                        'code': 'invalid'
+                    }
+                ]
+            }), content_type='application/json')
 
-        user.set_password(pass1)
-        user.save()
+
 
         tutee = tutee_form.save(commit=False)
         tutee.user = user
@@ -119,20 +136,34 @@ def tutor_signup(request):
         tutor_form = TutorForm(request.POST)
 
         if pass1 != pass2:
-            # TODO: handle this better
-            return HttpResponseBadRequest('Passwords don\'t match')
+            return HttpResponseBadRequest(json.dumps({
+                'password': [
+                    {
+                        'message': 'The passwords do not match',
+                        'code': 'invalid'
+                    }
+                ]
+            }), content_type='application/json')
 
         if not tutor_form.is_valid():
-            # TODO: handle this better
-            return HttpResponseBadRequest(json.dumps(tutor_form.errors))
+            return HttpResponseBadRequest(tutor_form.errors.as_json(), content_type='application/json')
 
-        user = User.objects.create_user(username=request.POST['username'],
-                                        first_name=request.POST['first_name'],
-                                        last_name=request.POST['last_name'],
-                                        email=request.POST['email'])
-
-        user.set_password(pass1)
-        user.save()
+        try:
+            user = User.objects.create_user(username=request.POST['username'],
+                                            first_name=request.POST['first_name'],
+                                            last_name=request.POST['last_name'],
+                                            email=request.POST['email'])
+            user.set_password(pass1)
+            user.save()
+        except IntegrityError as e:
+            return HttpResponseBadRequest(json.dumps({
+                'user': [
+                    {
+                        'message': 'The username or email is already in use',
+                        'code': 'invalid'
+                    }
+                ]
+            }), content_type='application/json')
 
         tutor = tutor_form.save(commit=False)
         tutor.user = user
