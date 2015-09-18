@@ -30,7 +30,7 @@ class Tutee(models.Model):
     grade = models.CharField(max_length=128, choices=GRADES)
     parent_name = models.CharField(max_length=512)
     parent_phone = models.CharField(max_length=128)
-    extra_info = models.TextField()
+    extra_info = models.TextField(null=True, blank=True)
 
 
 class Tutor(models.Model):
@@ -56,7 +56,7 @@ class Tutor(models.Model):
     subjects = models.ManyToManyField(Subject)
     gender = models.CharField(max_length=128)
     # grade = models.CharField(max_length=128, choices=GRADES)
-    extra_info = models.TextField()
+    extra_info = models.TextField(null=True, blank=True)
 
 
 class Match(models.Model):
