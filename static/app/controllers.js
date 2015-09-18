@@ -83,6 +83,25 @@ define([ // jshint ignore:line
                 $state.go('home');
             };
 
+            $scope.toggleSubjectSelection = function (subject) {
+                var found = false;
+                var removeIndex;
+
+                for (var i = 0; !found && i < $scope.formData.subjects.length; i++) {
+                    var currSubjectId = $scope.formData.subjects[i];
+                    if (currSubjectId === subject.id) {
+                        found = true;
+                        removeIndex = i;
+                    }
+                }
+
+                if (found) {
+                    $scope.formData.subjects.splice(removeIndex, 1);
+                } else {
+                    $scope.formData.subjects.push(subject.id);
+                }
+            };
+
             $scope.submitForm = function () {
                 PostService.post(
                     PostService.tuteeSignupEndpoint,
@@ -140,6 +159,25 @@ define([ // jshint ignore:line
 
             $scope.goToHome = function () {
                 $state.go('home');
+            };
+
+            $scope.toggleSubjectSelection = function (subject) {
+                var found = false;
+                var removeIndex;
+
+                for (var i = 0; !found && i < $scope.formData.subjects.length; i++) {
+                    var currSubjectId = $scope.formData.subjects[i];
+                    if (currSubjectId === subject.id) {
+                        found = true;
+                        removeIndex = i;
+                    }
+                }
+
+                if (found) {
+                    $scope.formData.subjects.splice(removeIndex, 1);
+                } else {
+                    $scope.formData.subjects.push(subject.id);
+                }
             };
 
             $scope.submitForm = function () {

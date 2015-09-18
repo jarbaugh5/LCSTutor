@@ -124,7 +124,7 @@ def tutor_signup(request):
 
         if not tutor_form.is_valid():
             # TODO: handle this better
-            return HttpResponseBadRequest(json.dumps(tutee_form.errors))
+            return HttpResponseBadRequest(json.dumps(tutor_form.errors))
 
         user = User.objects.create_user(username=request.POST['username'],
                                         first_name=request.POST['first_name'],

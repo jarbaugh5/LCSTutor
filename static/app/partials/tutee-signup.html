@@ -55,11 +55,16 @@
                     <input type="checkbox" id="sathelp" name="sathelp" ng-model="formData.satHelp"/>
                 </div>
 
-                <div class="tutee-signup-item tutee-signup-item-w-select">
+                <div class="tutee-signup-item tutee-signup-item-subjects">
                     <label class="control-label" for="subjects">Subjects:</label>
-                    <select multiple id="subjects" name="subjects" ng-model="formData.subjects">
-                        <option ng-repeat="sub in subjectChoices" value="{{sub.id}}">{{sub.name}}</option>
-                    </select>
+                    <div id="subjects">
+                        <div ng-repeat="subject in subjectChoices">
+                            <label class="control-label" for="subject{{ subject.id }}">{{ subject.name }}</label>
+                            <input type="checkbox" id="subject{{ subject.id }}"
+                                   ng-change="toggleSubjectSelection(subject)"
+                                   ng-model="subjectChecked[subject.id]"/>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tutee-signup-item tutee-signup-item-gender">
