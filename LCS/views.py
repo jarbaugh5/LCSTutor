@@ -378,6 +378,45 @@ def update_tutor(request):
 
     return HttpResponse()
 
+@csrf_exempt
+def update_tutee(request):
+    if not (request.user.is_authenticated() and request.user.is_staff):
+        return HttpResponseForbidden()
+
+    tutee_form = TuteeForm(request.POST)
+
+    if not tutee_form.is_valid():
+        return HttpResponseBadRequest(tutee_form.errors.as_json())
+
+    # Should only be one, but this allows the update method
+    matches = Tutee.objects.filter(id=request.POST['id'])
+
+    matches.update(**{
+        'extra_info': tutee_form.cleaned_data['extra_info'],
+        'gender': tutee_form.cleaned_data['gender'],
+        'parent_phone': tutee_form.cleaned_data['parent_phone'],
+        'parent_name': tutee_form.cleaned_data['parent_name'],
+        'sat_help': tutee_form.cleaned_data['sat_help']
+    })  # Can't just unpack the cleaned data b/c subjects is a m2m field :/
+
+    tutee = Tutee.objects.get(id=request.POST['id'])
+
+    curr_subjects = tutee.subjects
+    for subject in curr_subjects.all():
+        if subject not in tutee_form.cleaned_data['subjects']:
+            tutee.subjects.remove(subject)
+
+    for subject in tutee_form.cleaned_data['subjects']:
+        tutee.subjects.add(subject)
+
+    user = tutee.user
+    user_data = json.loads(request.POST['user'])
+    user.first_name = user_data['first_name']
+    user.last_name = user_data['last_name']
+    user.save()
+
+    return HttpResponse()
+
 
 @csrf_exempt
 def revoke_admin(request):

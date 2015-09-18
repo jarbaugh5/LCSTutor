@@ -352,7 +352,8 @@ define([ // jshint ignore:line
         'LCSTutoring.services.Tutee',
         '$state',
         '$window',
-        function ($scope, UserInfo, Tutee, $state, $window) {
+        '$modal',
+        function ($scope, UserInfo, Tutee, $state, $window, $modal) {
             if (!(UserInfo.hasInfo && UserInfo.user.is_staff)) {
                 $state.go('home');
             }
@@ -374,6 +375,29 @@ define([ // jshint ignore:line
                     console.error('Unable to get all tutors');
                 }
             );
+
+            $scope.editTutee = function (user) {
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/static/app/partials/edit-user-modal.html',
+                    controller: 'LCSTutoringApp.controllers.EditUserModalController',
+                    size: 'md',
+                    resolve: {
+                        user: function () {
+                            return user;
+                        },
+                        userType: function () {
+                            return 'Tutee';
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function okay() {
+
+                }, function dismiss() {
+
+                });
+            };
         }]);
 
     controllers.controller('LCSTutoringApp.controllers.EditAdminsController', [
@@ -479,10 +503,11 @@ define([ // jshint ignore:line
         '$modalInstance',
         'LCSTutoring.services.Subjects',
         'LCSTutoring.services.Tutor',
+        'LCSTutoring.services.Tutee',
         'user',
         'userType',
         '$window',
-        function ($scope, $modalInstance, Subjects, Tutor, user, userType, $window) {
+        function ($scope, $modalInstance, Subjects, Tutor, Tutee, user, userType, $window) {
 
             $scope.user = user;
             $scope.userType = userType;
@@ -524,13 +549,24 @@ define([ // jshint ignore:line
             };
 
             $scope.ok = function () {
-                Tutor.saveTutor(getSubmittableUser($scope.user), function () {
-                    console.log('updated');
-                }, function () {
-                    $window.alert('Sorry, but there was an error updating this account.' +
-                    ' Please refresh the page and try again.');
-                    console.error('error updating account');
-                });
+                if ($scope.userType === 'Tutor' || $scope.userType === 'Admin') {
+                    Tutor.saveTutor(getSubmittableUser($scope.user), function () {
+                        console.log('updated');
+                    }, function () {
+                        $window.alert('Sorry, but there was an error updating this account.' +
+                        ' Please refresh the page and try again.');
+                        console.error('error updating account');
+                    });
+                } else if ($scope.userType === 'Tutee') {
+                    Tutee.saveTutee(getSubmittableUser($scope.user), function () {
+                        console.log('updated');
+                    }, function () {
+                        $window.alert('Sorry, but there was an error updating this account.' +
+                        ' Please refresh the page and try again.');
+                        console.error('error updating account');
+                    });
+                }
+
                 $modalInstance.close();
             };
 

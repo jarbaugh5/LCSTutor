@@ -98,17 +98,17 @@
             <!--</select>-->
         <!--</div>-->
 
-        <!--<div class="tutee-signup-item">-->
-            <!--<label class="control-label" for="parentname">Parent Name:</label>-->
-            <!--<input type="text" id="parentname" name="parentname" class="form-control" placeholder="Parent Name"-->
-                   <!--ng-model="user.parent_name"/>-->
-        <!--</div>-->
+        <div class="tutee-signup-item" ng-if="userType==='Tutee'">
+            <label class="control-label" for="parentname">Parent Name:</label>
+            <input type="text" id="parentname" name="parentname" class="form-control" placeholder="Parent Name"
+                   ng-model="user.parent_name"/>
+        </div>
 
-        <!--<div class="tutee-signup-item">-->
-            <!--<label class="control-label" for="parentphone">Parent Phone:</label>-->
-            <!--<input type="text" id="parentphone" name="parentphone" class="form-control"-->
-                   <!--placeholder="Parent Phone" ng-model="user.parent_phone"/>-->
-        <!--</div>-->
+        <div class="tutee-signup-item" ng-if="userType==='Tutee'">
+            <label class="control-label" for="parentphone">Parent Phone:</label>
+            <input type="text" id="parentphone" name="parentphone" class="form-control"
+                   placeholder="Parent Phone" ng-model="user.parent_phone"/>
+        </div>
 
         <div class="tutee-signup-item tutee-signup-item-w-select">
             <label class="control-label" for="extrainfo">Extra Info:</label>
