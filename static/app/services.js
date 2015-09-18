@@ -117,6 +117,20 @@ define([ // jshint ignore:line
                     });
             };
 
+            service.deleteTutee = function (tutee, cb, err) {
+                $http.post('/deletetutee',
+                    $httpParamSerializer(tutee),
+                    {
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .success(function () {
+                        cb();
+                    })
+                    .error(function (error) {
+                        err(error);
+                    });
+            };
+
 
             return service;
         }
@@ -222,6 +236,20 @@ define([ // jshint ignore:line
                     })
                     .error(function () {
                         err();
+                    });
+            };
+
+            service.deleteTutor = function (tutor, cb, err) {
+                $http.post('/deletetutor',
+                    $httpParamSerializer(tutor),
+                    {
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .success(function () {
+                        cb();
+                    })
+                    .error(function (error) {
+                        err(error);
                     });
             };
 

@@ -445,6 +445,46 @@ def revoke_admin(request):
 
 
 @csrf_exempt
+def delete_tutee(request):
+    if not (request.user.is_authenticated() and request.user.is_staff):
+        return HttpResponseForbidden()
+
+    try:
+        tutee_id = int(request.POST['id'])
+    except (KeyError, ValueError) as e:
+        return HttpResponseBadRequest('No valid user ID provided')
+
+    try:
+        tutee_to_delete = Tutee.objects.get(id=tutee_id)
+    except Tutor.DoesNotExist:
+        return HttpResponseBadRequest('User does not exist')
+
+    tutee_to_delete.delete()
+
+    return HttpResponse()
+
+
+@csrf_exempt
+def delete_tutor(request):
+    if not (request.user.is_authenticated() and request.user.is_staff):
+        return HttpResponseForbidden()
+
+    try:
+        tutor_id = int(request.POST['id'])
+    except (KeyError, ValueError) as e:
+        return HttpResponseBadRequest('No valid user ID provided')
+
+    try:
+        tutor_to_delete = Tutor.objects.get(id=tutor_id)
+    except Tutor.DoesNotExist:
+        return HttpResponseBadRequest('User does not exist')
+
+    tutor_to_delete.delete()
+
+    return HttpResponse()
+
+
+@csrf_exempt
 def add_admin(request):
     if not (request.user.is_authenticated() and request.user.is_staff):
         return HttpResponseForbidden()

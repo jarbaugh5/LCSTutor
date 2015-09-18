@@ -344,6 +344,26 @@ define([ // jshint ignore:line
 
                 });
             };
+
+            $scope.deleteTutor = function (user) {
+                if ($window.confirm('Are you sure you want to delete ' + user.user.first_name + '?')) {
+                    Tutor.deleteTutor(user, function () {
+                        console.log('Deleted tutor: ' + user.user.first_name + '.');
+                        Tutor.getAllTutors(
+                            function cb(data) {
+                                $scope.tuts = data;
+                            },
+                            function err() {
+                                console.error('Unable to get all tutors');
+                            }
+                        );
+                    }, function (error) {
+                        $window.alert('Failed to delete tutor ' + user.user.first_name +
+                        ' with error: ' + error);
+                        console.error('Failed to delete tutor ' + user.user.first_name + '.');
+                    });
+                }
+            };
         }]);
 
     controllers.controller('LCSTutoringApp.controllers.EditTuteesController', [
@@ -397,6 +417,26 @@ define([ // jshint ignore:line
                 }, function dismiss() {
 
                 });
+            };
+
+            $scope.deleteTutee = function (user) {
+                if ($window.confirm('Are you sure you want to delete ' + user.user.first_name + '?')) {
+                    Tutee.deleteTutee(user, function () {
+                        console.log('Deleted tutee: ' + user.user.first_name + '.');
+                        Tutee.getAllTutees(
+                            function cb(data) {
+                                $scope.tuts = data;
+                            },
+                            function err() {
+                                console.error('Unable to get all tutors');
+                            }
+                        );
+                    }, function (error) {
+                        $window.alert('Failed to delete tutee ' + user.user.first_name +
+                        ' with error: ' + error);
+                        console.error('Failed to delete tutee ' + user.user.first_name + '.');
+                    });
+                }
             };
         }]);
 
