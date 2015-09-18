@@ -103,7 +103,7 @@ def tutee_signup(request):
                                             email=request.POST['email'])
             user.set_password(pass1)
             user.save()
-        except IntegrityError as e:
+        except Exception as e:
             return HttpResponseBadRequest(json.dumps({
                 'user': [
                     {
@@ -155,7 +155,7 @@ def tutor_signup(request):
                                             email=request.POST['email'])
             user.set_password(pass1)
             user.save()
-        except IntegrityError as e:
+        except Exception as e:
             return HttpResponseBadRequest(json.dumps({
                 'user': [
                     {
