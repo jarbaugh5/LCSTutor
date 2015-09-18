@@ -257,5 +257,28 @@ define([ // jshint ignore:line
         }
     ]);
 
+    services.service('LCSTutoring.services.Match', [
+        '$http',
+        '$httpParamSerializer',
+        function ($http, $httpParamSerializer) {
+            var service = {};
+
+            service.getAllMatches = function (cb, err) {
+                $http.post('/getmatches',
+                    {},
+                    {
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .success(function (data) {
+                        cb(data);
+                    })
+                    .error(function () {
+                        err();
+                    });
+            };
+
+            return service;
+        }]);
+
     return services;
 });

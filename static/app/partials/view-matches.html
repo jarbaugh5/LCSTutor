@@ -1,0 +1,62 @@
+<div class="lcs-container">
+    <div class="lcs-header text-center">
+        <div>
+            <button class="btn btn-default btn-lg lcs-header-home-btn"
+                    ng-click="goHome()">
+                Home
+            </button>
+        </div>
+
+        <div>
+            <img class="lcs-header-icon" src="/static/img/logo_quarter.png">
+        </div>
+
+        <span class="lcs-header-text"></span>
+    </div>
+
+    <div class="lcs-body text-center">
+       <div class="et-all-outer-container-admin">
+            <p class="et-all-title">All Matches:</p>
+            <div class="et-all-inner-container">
+                <table class="table">
+                    <tr>
+                        <th>Tutor</th>
+                        <th>Tutee</th>
+
+                        <th>Tutor Email Info</th>
+                        <th>Tutee Email Info</th>
+
+
+                    </tr>
+
+                    <tr ng-repeat="match in matches" class="text-left et-item-row">
+                        <td>
+                            <p>{{ match.tutor.user.first_name }} {{ match.tutor.user.last_name }}</p>
+                            <p>{{ match.tutor.user.email }}</p>
+                            <p>{{ match.tutor.phone }}</p>
+                        </td>
+
+                        <td>
+                            <p>{{ match.tutee.user.first_name }} {{ match.tutee.user.last_name }}</p>
+                            <p>{{ match.tutee.user.email }}</p>
+                            <p>{{ match.tutee.parent_name }} (Parent)</p>
+                            <p>{{ match.tutee.parent_phone }} (Parent)</p>
+                        </td>
+
+                        <td>
+                            <p>Sent: {{ match.tutor_email_sent }}</p>
+                            <p>Date: {{ match.tutor_email_date }}</p>
+                            <p>Error: <span ng-if="!match.tutor_email_error">None</span>{{ match.tutor_email_error }}</p>
+                        </td>
+
+                        <td>
+                            <p>Sent: {{ match.tutee_email_sent }}</p>
+                            <p>Date: {{ match.tutee_email_date }}</p>
+                            <p>Error: <span ng-if="!match.tutee_email_error">None</span>{{ match.tutee_email_error }}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+       </div>
+    </div>
+</div>

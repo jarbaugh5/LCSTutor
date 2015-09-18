@@ -826,5 +826,26 @@ define([ // jshint ignore:line
             };
         }]);
 
+    controllers.controller('LCSTutoringApp.controllers.ViewMatchesController', [
+        '$scope',
+        '$window',
+        '$state',
+        'LCSTutoring.services.Tutor',
+        'LCSTutoring.services.Tutee',
+        'LCSTutoring.services.Match',
+        function ($scope, $window, $state, Tutor, Tutee, Match) {
+            $scope.matches = [];
+
+            $scope.goHome = function () {
+                $state.go('home');
+            };
+
+            Match.getAllMatches(function (matches) {
+                $scope.matches = matches;
+            }, function () {
+                console.error('Unable to get matches');
+            });
+        }]);
+
     return controllers;
 });

@@ -551,3 +551,26 @@ def make_match(request):
         ),
         content_type='application/json'
     )
+
+
+@csrf_exempt
+def get_matches(request):
+    if not (request.user.is_authenticated() and request.user.is_staff):
+        return HttpResponseForbidden()
+
+    matches = Match.objects.all()
+
+    matches_list = []
+    for match in matches:
+        match_dict = model_to_dict(match)
+        match_dict['tutor'] = chase_users(model_to_dict(match.tutor))
+        match_dict['tutee'] = chase_users(model_to_dict(match.tutee))
+        matches_list.append(match_dict)
+
+    return HttpResponse(
+        json.dumps(
+            matches_list,
+            cls=DjangoJSONEncoder
+        ),
+        content_type='application/json'
+    )

@@ -61,6 +61,10 @@ define([ // jshint ignore:line
                 url: '/makematches',
                 controller: 'LCSTutoringApp.controllers.MakeMatchesController',
                 templateUrl: '/static/app/partials/make-matches.html'
+            }).state('viewMatches', {
+                url: '/viewmatches',
+                controller: 'LCSTutoringApp.controllers.ViewMatchesController',
+                templateUrl: '/static/app/partials/view-matches.html'
             });
 
         app.run([
