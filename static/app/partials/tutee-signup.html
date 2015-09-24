@@ -16,7 +16,7 @@
 
     <div class="tutee-signup-body text-center">
         <div class="tutee-signup-form-container text-left">
-            <form class="form-horizontal" ng-submit="submitForm()">
+            <form class="form-horizontal" ng-submit="submitForm()" ng-init="agreed=false" >
 
                 <div class="tutee-signup-item tutee-error-item text-center alert alert-danger" ng-if="errors"
                         ng-style='{height: (50 + 30 * errors.length + "px")}'>
@@ -146,8 +146,17 @@
                               ng-model="formData.extraInfo"></textarea>
                 </div>
 
+                <div class="tutee-signup-item tutee-signup-item-w-select">
+                    <label class="control-label">I understand and agree to the "Tufts Campus - Minors" waiver.</label>
+                    <input type="checkbox" name="agree" class="form-control" ng-model="agreed"/>
+                </div>
+
+                <div class="tutee-signup-item">
+                    <a target="blank" href="/static/docs/tufts_campus_minors.docx">Tufts Campus - Minors</a>
+                </div>
+
                 <div class="tutee-signup-submit-item">
-                    <input type="submit" value="Submit" class="btn btn-lg btn-default">
+                    <input type="submit" value="Submit" class="btn btn-lg btn-default" ng-disabled="!agreed">
                 </div>
             </form>
         </div>

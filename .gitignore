@@ -152,3 +152,4 @@ bower_components/
 static/css/styles.css
 staticfiles/
 static/js/templates.js
+.DS_Store
