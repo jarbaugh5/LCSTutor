@@ -167,6 +167,10 @@ define([ // jshint ignore:line
             //$scope.formData.grade = '1'; // Choosing one by default
             $scope.formData.extraInfo = '';
 
+            $scope.grades15 = false; // Grades 1 - 5
+            $scope.grades68 = false; // Grades 6 - 8
+            $scope.grades912 = false; // Grades 9 - 12
+
             $scope.subjectChoices = Subjects.subjects;
 
 

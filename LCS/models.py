@@ -56,6 +56,9 @@ class Tutor(models.Model):
     subjects = models.ManyToManyField(Subject)
     gender = models.CharField(max_length=128)
     # grade = models.CharField(max_length=128, choices=GRADES)
+    grades15 = models.BooleanField(default=False)
+    grades68 = models.BooleanField(default=False)
+    grades912 = models.BooleanField(default=False)
     extra_info = models.TextField(null=True, blank=True)
 
 
