@@ -167,9 +167,9 @@ define([ // jshint ignore:line
             //$scope.formData.grade = '1'; // Choosing one by default
             $scope.formData.extraInfo = '';
 
-            $scope.grades15 = false; // Grades 1 - 5
-            $scope.grades68 = false; // Grades 6 - 8
-            $scope.grades912 = false; // Grades 9 - 12
+            $scope.formData.grades15 = false; // Grades 1 - 5
+            $scope.formData.grades68 = false; // Grades 6 - 8
+            $scope.formData.grades912 = false; // Grades 9 - 12
 
             $scope.subjectChoices = Subjects.subjects;
 
@@ -212,7 +212,10 @@ define([ // jshint ignore:line
                         'subjects': $scope.formData.subjects,
                         'gender': $scope.formData.other ? $scope.formData.otherGender : $scope.formData.gender,
                         //'grade': $scope.formData.grade,
-                        'extra_info': $scope.formData.extraInfo
+                        'extra_info': $scope.formData.extraInfo,
+                        'grades15': $scope.formData.grades15,
+                        'grades68': $scope.formData.grades68,
+                        'grades912': $scope.formData.grades912
                     },
                     function () {
                         console.log('Posted tutor signup data');
@@ -677,6 +680,21 @@ define([ // jshint ignore:line
             Tutor.getAllTutors(
                 function cb(data) {
                     $scope.tutors = data;
+
+                    for (var i = 0; i < $scope.tutors.length; i++) {
+                        var tutor = $scope.tutors[i];
+                        var searchableText = '';
+
+                        if (tutor.grades15) {
+                            searchableText += '15 1-5 (1-5)';
+                        } else if (tutor.grades68) {
+                            searchableText += '68 6-8 (6-8)';
+                        } else {
+                            searchableText += '912 9-12 (9-12)';
+                        }
+
+                        tutor.searchableText = searchableText;
+                    }
                 },
                 function err() {
                     console.error('Unable to get all tutors');

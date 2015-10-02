@@ -71,6 +71,7 @@
                         <th>Gender</th>
                         <th>SAT Help?</th>
                         <th>Subjects</th>
+                        <th>Grades</th>
                         <th>Phone</th>
                         <th>Register Date</th>
                         <th>Extra Info</th>
@@ -89,6 +90,11 @@
                             <span ng-repeat="subject in tutor.subjects track by $index">
                                 {{ subject.name }}<span ng-if="$index < tutor.subjects.length - 1">,</span>
                             </span>
+                        </td>
+                        <td>
+                            <span ng-if="tutor.grades15">(1-5)</span>
+                            <span ng-if="tutor.grades68">(6-8)</span>
+                            <span ng-if="tutor.grades912">(9-12)</span>
                         </td>
                         <td>{{ tutor.phone }}</td>
                         <td>Date</td>
