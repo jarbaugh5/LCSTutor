@@ -277,6 +277,22 @@ define([ // jshint ignore:line
                     });
             };
 
+            service.deleteMatch = function (matchId, cb, err) {
+                $http.post('/deletematch',
+                    $httpParamSerializer({
+                        id: matchId
+                    }),
+                    {
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .success(function (data) {
+                        cb(data);
+                    })
+                    .error(function () {
+                        err();
+                    });
+            };
+
             return service;
         }]);
 

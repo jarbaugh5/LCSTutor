@@ -21,6 +21,8 @@
             <div class="et-all-inner-container">
                 <table class="table">
                     <tr>
+                        <th>Edit</th>
+
                         <th>Tutor</th>
                         <th>Tutee</th>
 
@@ -31,6 +33,9 @@
                     </tr>
 
                     <tr ng-repeat="match in matches" class="text-left et-item-row">
+                        <td>
+                            <button class="btn btn-sm btn-danger" ng-click="deleteMatch(match)">Delete</button>
+                        </td>
                         <td>
                             <p>{{ match.tutor.user.first_name }} {{ match.tutor.user.last_name }}</p>
                             <p>{{ match.tutor.user.email }}</p>

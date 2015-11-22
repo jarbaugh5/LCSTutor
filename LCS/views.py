@@ -574,3 +574,22 @@ def get_matches(request):
         ),
         content_type='application/json'
     )
+
+@csrf_exempt
+def delete_match(request):
+    if not (request.user.is_authenticated() and request.user.is_staff):
+        return HttpResponseForbidden()
+
+    try:
+        match_id = int(request.POST['id'])
+    except (KeyError, ValueError) as e:
+        return HttpResponseBadRequest('No valid match ID provided')
+
+    try:
+        match_to_delete = Match.objects.get(id=match_id)
+    except Match.DoesNotExist:
+        return HttpResponseBadRequest('Match does not exist')
+
+    match_to_delete.delete()
+
+    return HttpResponse()

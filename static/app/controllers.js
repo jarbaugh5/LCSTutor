@@ -862,11 +862,26 @@ define([ // jshint ignore:line
                 $state.go('home');
             };
 
-            Match.getAllMatches(function (matches) {
-                $scope.matches = matches;
-            }, function () {
-                console.error('Unable to get matches');
-            });
+            $scope.deleteMatch = function (match) {
+                if ($window.confirm('Are you sure you want to delete this match: ' +
+                    match.tutor.user.first_name + ' + ' + match.tutee.user.first_name + '?')) {
+                    Match.deleteMatch(match.id, function () {
+                        $scope.loadMatches();
+                    }, function () {
+                        console.log('Failed to delete match');
+                    });
+                }
+            };
+
+            $scope.loadMatches = function () {
+                Match.getAllMatches(function (matches) {
+                    $scope.matches = matches;
+                }, function () {
+                    console.error('Unable to get matches');
+                });
+            };
+
+            $scope.loadMatches();
         }]);
 
     return controllers;
