@@ -101,7 +101,7 @@
                             <span ng-if="tutor.grades912">(9-12)</span>
                         </td>
                         <td>{{ tutor.phone }}</td>
-                        <td>Date</td>
+                        <td>{{ tutor.user.date_joined }}</td>
                         <td>{{ tutor.extra_info }}</td>
                     </tr>
                 </table>
@@ -188,7 +188,7 @@
                         </td>
                         <td>{{ tutee.parent_name }}</td>
                         <td>{{ tutee.phone }}</td>
-                        <td>Date</td>
+                        <td>{{ tutee.user.date_joined }}</td>
                         <td>{{ tutee.extra_info }}</td>
                     </tr>
                 </table>

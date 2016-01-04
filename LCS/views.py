@@ -265,8 +265,10 @@ def chase_matches(obj, manager):
 def replace_user(obj):
     obj['user'] = model_to_dict(
         User.objects.get(id=obj['user']),
-        fields=['username', 'email', 'first_name', 'last_name']
+        fields=['username', 'email', 'first_name', 'last_name', 'date_joined']
     )
+    date = obj['user']['date_joined']
+    obj['user']['date_joined'] = str(date.month) + '/' + str(date.day) + '/' + str(date.year)
 
 
 @csrf_exempt
