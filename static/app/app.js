@@ -7,8 +7,14 @@ define([ // jshint ignore:line
     'jQuery',
     'bootstrap',
     'templates',
+    'angularLoadingBar',
 ], function (angular) {
-    var app = angular.module('LCSTutoringApp', ['ui.router', 'LCSTutoringApp.controllers', 'templates-main']);
+    var app = angular.module('LCSTutoringApp', [
+        'ui.router',
+        'LCSTutoringApp.controllers',
+        'templates-main',
+        'angular-loading-bar'
+    ]);
 
     app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 

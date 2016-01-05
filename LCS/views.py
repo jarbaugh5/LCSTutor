@@ -294,6 +294,8 @@ def get_all_tutors(request):
 
 @csrf_exempt
 def get_all_tutees(request):
+    import time
+    time.sleep(2)
     if not (request.user.is_authenticated() and request.user.is_staff):
         return HttpResponseForbidden()
 

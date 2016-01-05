@@ -17,3 +17,18 @@ body
 .lcs-body
   background-color bg-color
   height 100%
+
+/* Loading Bar Override */
+bar-color = primary-color
+#loading-bar .bar
+  background: bar-color;
+  
+#loading-bar .peg
+  -moz-box-shadow: bar-color 1px 0 6px 1px
+  -ms-box-shadow: bar-color 1px 0 6px 1px
+  -webkit-box-shadow: bar-color 1px 0 6px 1px
+  box-shadow: bar-color 1px 0 6px 1px
+
+#loading-bar-spinner .spinner-icon
+  border-top-color:  bar-color
+  border-left-color: bar-color

@@ -10,6 +10,7 @@ requirejs.config({ // jshint ignore:line
         bootstrap: window.lcsFilepaths.bootstrap.slice(0, -3),
         jQuery: window.lcsFilepaths.jQuery.slice(0, -3),
         uiBootstrap: window.lcsFilepaths.uiBootstrap.slice(0, -3),
+        angularLoadingBar: window.lcsFilepaths.angularLoadingBar.slice(0, -3),
 
         // Modules
         app: window.lcsFilepaths.app.slice(0, -3),
@@ -36,6 +37,9 @@ requirejs.config({ // jshint ignore:line
             deps: ['angular']
         },
         'uiBootstrap': {
+            deps: ['angular']
+        },
+        'angularLoadingBar': {
             deps: ['angular']
         }
     },
