@@ -196,6 +196,16 @@
 
         </div>
 
+        <p>Using template for Tutor:</p>
+        <select ng-model="selectedTutorTemplateId">
+            <option ng-repeat="template in emailTemplates" value="{{ template.id }}">{{ template.name }}</option>
+        </select>
+
+        <p>Using template for Tutee:</p>
+        <select ng-model="selectedTuteeTemplateId">
+            <option ng-repeat="template in emailTemplates" value="{{ template.id }}">{{ template.name }}</option>
+        </select>
+
         <div class="mm-matches-container">
             <div class="mm-matches-item-container">
                 <p>{{ tutorToMatch.user.first_name }} {{tutorToMatch.user.last_name }}</p>
