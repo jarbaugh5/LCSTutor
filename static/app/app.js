@@ -71,10 +71,6 @@ define([ // jshint ignore:line
                 url: '/viewmatches',
                 controller: 'LCSTutoringApp.controllers.ViewMatchesController',
                 templateUrl: '/static/app/partials/view-matches.html'
-            }).state('editEmailTemplates', {
-                url: '/edittemplates',
-                controller: 'LCSTutoringApp.controllers.EditEmailTemplatesController',
-                templateUrl: '/static/app/partials/edit-templates.html'
             });
 
         app.run([

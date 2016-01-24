@@ -28,8 +28,5 @@ urlpatterns = patterns('',
     url(r'^makematch$', make_match),
     url(r'getmatches', get_matches),
     url(r'deletematch', delete_match),
-    url(r'getemailtemplates', get_all_email_templates),
-    url(r'createemailtemplate', create_email_template),
-    url(r'modifyemailtemplate', modify_email_template),
     url(r'', index),
 )

@@ -16,7 +16,7 @@ import smtplib
 
 from datetime import datetime
 
-from .models import Tutee, Subject, Tutor, Match, EmailTemplate
+from .models import Tutee, Subject, Tutor, Match
 from .forms import TuteeForm, TutorForm
 
 
@@ -595,56 +595,5 @@ def delete_match(request):
         return HttpResponseBadRequest('Match does not exist')
 
     match_to_delete.delete()
-
-    return HttpResponse()
-
-@csrf_exempt
-def get_all_email_templates(request):
-    if not (request.user.is_authenticated() and request.user.is_staff):
-        return HttpResponseForbidden()
-
-    return HttpResponse(
-        json.dumps(
-            [model_to_dict(tmpl) for tmpl in EmailTemplate.objects.all()],
-            cls=DjangoJSONEncoder
-        ),
-        content_type='application/json'
-    )
-
-@csrf_exempt
-def create_email_template(request):
-    if not (request.user.is_authenticated() and request.user.is_staff):
-        return HttpResponseForbidden()
-
-    try:
-        name = request.POST['name']
-        template = request.POST['template']
-    except KeyError as e:
-        return HttpResponseBadRequest('No name or template provided')
-
-    EmailTemplate.objects.create(name=name, template=template)
-
-    return HttpResponse()
-
-@csrf_exempt
-def modify_email_template(request):
-    if not (request.user.is_authenticated() and request.user.is_staff):
-        return HttpResponseForbidden()
-
-    try:
-        id = int(request.POST['id'])
-        name = request.POST['name']
-        template = request.POST['template']
-    except (KeyError, ValueError) as e:
-        return HttpResponseBadRequest('Invalid id, name or template provided')
-
-    try:
-        emailTemplate = EmailTemplate.objects.get(id=id)
-    except EmailTemplate.DoesNotExist as e:
-        return HttpResponseBadRequest('Id does not exist')
-
-    emailTemplate.name = name
-    emailTemplate.template = template
-    emailTemplate.save()
 
     return HttpResponse()

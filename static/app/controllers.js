@@ -297,10 +297,6 @@ define([ // jshint ignore:line
             $scope.goToViewMatches = function () {
                 $state.go('viewMatches');
             };
-
-            $scope.gotToEditEmailTemplates = function () {
-                $state.go('editEmailTemplates');
-            };
         }]);
 
     controllers.controller('LCSTutoringApp.controllers.EditTutorsController', [
@@ -658,11 +654,10 @@ define([ // jshint ignore:line
         'LCSTutoring.services.UserInfo',
         'LCSTutoring.services.Tutor',
         'LCSTutoring.services.Tutee',
-        'LCSTutoring.services.EmailTemplates',
         '$state',
         '$window',
         '$modal',
-        function ($scope, UserInfo, Tutor, Tutee, EmailTemplates, $state, $window, $modal) {
+        function ($scope, UserInfo, Tutor, Tutee, $state, $window, $modal) {
             if (!(UserInfo.hasInfo && UserInfo.user.is_staff)) {
                 $state.go('home');
             }
@@ -705,15 +700,6 @@ define([ // jshint ignore:line
                     console.error('Unable to get all tutors');
                 }
             );
-
-            $scope.emailTemplates = null;
-            $scope.selectedTutorTemplateId = null;
-            $scope.selectedTuteeTemplateId = null;
-            EmailTemplates.getAllEmailTemplates(function (templates) {
-                $scope.emailTemplates = templates;
-            }, function () {
-                console.error('Unable to get email templates');
-            });
 
             $scope.tutorToMatch = null;
             $scope.tuteeToMatch = null;
@@ -786,26 +772,6 @@ define([ // jshint ignore:line
                         },
                         tutee: function () {
                             return $scope.tuteeToMatch;
-                        },
-                        tutorTemplate: function () {
-                            var template = null;
-                            for (var i = 0; i < $scope.emailTemplates.length && template === null; i++) {
-                                if ($scope.emailTemplates[i].id == $scope.selectedTutorTemplateId) { // == b/c int and str
-                                    template = $scope.emailTemplates[i].template;
-                                }
-                            }
-
-                            return template;
-                        },
-                        tuteeTemplate: function () {
-                            var template = null;
-                            for (var i = 0; i < $scope.emailTemplates.length && template === null; i++) {
-                                if ($scope.emailTemplates[i].id == $scope.selectedTuteeTemplateId) { // == b/c int and str
-                                    template = $scope.emailTemplates[i].template;
-                                }
-                            }
-
-                            return template;
                         }
                     }
                 });
@@ -833,16 +799,18 @@ define([ // jshint ignore:line
         '$compile',
         'tutor',
         'tutee',
-        'tutorTemplate',
-        'tuteeTemplate',
+        '$templateCache',
         'LCSTutoring.services.Tutor',
-        function ($scope, $modalInstance, $window, $compile, tutor, tutee, tutorTemplate, tuteeTemplate, Tutor) {
+        function ($scope, $modalInstance, $window, $compile, tutor, tutee, $templateCache, Tutor) {
 
             $scope.tutor = tutor;
             $scope.tutee = tutee;
 
-            $scope.tutorEmail = $compile(tutorTemplate)($scope);
-            $scope.tuteeEmail = $compile(tuteeTemplate)($scope);
+            $scope.tutorEmailTemplate = $templateCache.get('/static/app/partials/tutor-email-template.html');
+            $scope.tuteeEmailTemplate = $templateCache.get('/static/app/partials/tutee-email-template.html');
+
+            $scope.tutorEmail = $compile($scope.tutorEmailTemplate)($scope);
+            $scope.tuteeEmail = $compile($scope.tuteeEmailTemplate)($scope);
 
 
             // Use timeout of 0 to push to the end of the digest I think..
@@ -914,169 +882,6 @@ define([ // jshint ignore:line
             };
 
             $scope.loadMatches();
-        }]);
-
-    controllers.controller('LCSTutoringApp.controllers.EditEmailTemplatesController', [
-        '$scope',
-        '$window',
-        '$state',
-        '$modal',
-        'LCSTutoring.services.EmailTemplates',
-        function ($scope, $window, $state, $modal, EmailTemplates) {
-            $scope.goHome = function () {
-                $state.go('home');
-            };
-
-            //$scope.deleteMatch = function (match) {
-            //    if ($window.confirm('Are you sure you want to delete this match: ' +
-            //        match.tutor.user.first_name + ' + ' + match.tutee.user.first_name + '?')) {
-            //        Match.deleteMatch(match.id, function () {
-            //            $scope.loadMatches();
-            //        }, function () {
-            //            console.log('Failed to delete match');
-            //        });
-            //    }
-            //};
-            //
-            $scope.loadTemplates = function () {
-                EmailTemplates.getAllEmailTemplates(function (templates) {
-                    $scope.templates = templates;
-                }, function () {
-                    console.error('Unable to get templates');
-                });
-            };
-
-            $scope.editTemplate = function (template) {
-                var modalInstance = $modal.open({
-                    animation: true,
-                    templateUrl: '/static/app/partials/edit-template-modal.html',
-                    controller: 'LCSTutoringApp.controllers.EditTemplateModalController',
-                    size: 'lg',
-                    windowClass: 'xlg-modal',
-                    resolve: {
-                        template: function () {
-                            return template;
-                        }
-                    }
-                });
-
-                modalInstance.result.then(function okay(templateDetails) {
-                    EmailTemplates.modifyEmailTemplate(
-                        templateDetails,
-                        function () {
-                            console.log('Saved');
-                            $scope.loadTemplates();
-                        }, function () {
-                            $window.alert('Error saving email template');
-                        }
-                    );
-                }, function dismiss() {
-
-                });
-            };
-
-            $scope.createNewTemplate = function () {
-                var modalInstance = $modal.open({
-                    animation: true,
-                    templateUrl: '/static/app/partials/edit-template-modal.html',
-                    controller: 'LCSTutoringApp.controllers.EditTemplateModalController',
-                    size: 'lg',
-                    windowClass: 'xlg-modal',
-                    resolve: {
-                        template: function () {
-                            return null;
-                        }
-                    }
-                });
-
-                modalInstance.result.then(function okay(templateDetails) {
-                    EmailTemplates.createEmailTemplate(
-                        templateDetails.name,
-                        templateDetails.template,
-                        function () {
-                            console.log('Saved');
-                            $scope.loadTemplates();
-                        }, function () {
-                            $window.alert('Error saving email template');
-                        }
-                    );
-                }, function dismiss() {
-
-                });
-            };
-
-            $scope.loadTemplates();
-        }]);
-
-    controllers.controller('LCSTutoringApp.controllers.EditTemplateModalController', [
-        '$scope',
-        '$modalInstance',
-        '$window',
-        '$compile',
-        '$templateCache',
-        'template',
-        function ($scope, $modalInstance, $window, $compile, $templateCache, templateToEdit) {
-
-            if (templateToEdit === null) {
-                $scope.name = '';
-                $scope.template = '';
-            } else {
-                $scope.id = templateToEdit.id;
-                $scope.name = templateToEdit.name;
-                $scope.template = templateToEdit.template.replace('<span>', '').replace('</span>', '');
-            }
-
-            $scope.tutor = {
-                user: {
-                    first_name: 'TutorFirstName',
-                    last_name: 'TutorLastName'
-                },
-                phone: 'TutorPhone',
-                sat_help: 'TutorSATHelp(true/false)',
-                gender: 'TutorGender'
-            };
-
-            $scope.tutee = {
-                user: {
-                    first_name: 'TuteeFirstName',
-                    last_name: 'TuteeLastName'
-                },
-                grade: 'TuteeGrade(1st Grade)',
-                gender: 'TuteeGender',
-                parent_name: 'TuteeParentName',
-                parent_phone: 'TuteeParentPhone'
-            };
-
-            $scope.templatePreview = '';
-
-            $scope.subjects = 'SubjectList(comma separated)';
-
-            $scope.$watch(function () {
-                return $scope.template;
-            }, function () {
-                $scope.templatePreviewCompiled = $compile('<span>' + $scope.template + '</span>')($scope);
-
-                // Use timeout of 0 to push to the end of the digest I think..
-                $window.setTimeout(function () {
-                    $scope.templatePreview = $scope.templatePreviewCompiled.text();
-
-                    $scope.$apply();
-                }, 0);
-            });
-
-
-
-            $scope.save = function () {
-                $modalInstance.close({
-                    id: $scope.id,
-                    name: $scope.name,
-                    template: '<span>' + $scope.template + '</span>'
-                });
-            };
-
-            $scope.close = function () {
-                $modalInstance.dismiss();
-            };
         }]);
 
     return controllers;

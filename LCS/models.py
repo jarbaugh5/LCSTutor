@@ -75,8 +75,3 @@ class Match(models.Model):
     # Used for storing error reports if emails fail to send
     tutor_email_error = models.TextField(null=True)
     tutee_email_error = models.TextField(null=True)
-
-
-class EmailTemplate(models.Model):
-    name = models.TextField()
-    template = models.TextField()
