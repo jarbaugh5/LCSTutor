@@ -1,0 +1,42 @@
+<div class="lcs-container">
+    <div class="lcs-header text-center">
+        <div>
+            <button class="btn btn-default btn-lg lcs-header-home-btn"
+                    ng-click="goHome()">
+                Home
+            </button>
+        </div>
+
+        <div>
+            <img class="lcs-header-icon" src="/static/img/logo_quarter.png">
+        </div>
+
+        <span class="lcs-header-text"></span>
+    </div>
+
+    <div class="lcs-body text-center">
+       <div class="et-all-outer-container-admin">
+            <p class="et-all-title">Email Templates:</p>
+           <p>{{ templates.length }} template(s)</p>
+           <button class="btn btn-default" ng-click="createNewTemplate()">New Template</button>
+            <div class="et-all-inner-container">
+                <table class="table">
+                    <tr>
+                        <th>Edit</th>
+
+                        <th>Name</th>
+                    </tr>
+
+                    <tr ng-repeat="template in templates" class="text-left et-item-row">
+                        <td>
+                            <button class="btn btn-sm btn-danger" ng-click="editTemplate(template)">Edit</button>
+                        </td>
+                        <td>
+                            <p>{{ template.name }}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+       </div>
+    </di>
+</div>
