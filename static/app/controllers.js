@@ -841,6 +841,12 @@ define([ // jshint ignore:line
             $scope.tutor = tutor;
             $scope.tutee = tutee;
 
+            $scope.subjects = '';
+            for (var i = 0; i < $scope.tutee.subjects.length; i++) {
+                $scope.subjects += $scope.tutee.subjects[i].name;
+                if (i < $scope.tutee.subjects.length - 1) $scope.subjects += ', ';
+            }
+
             $scope.tutorEmail = $compile(tutorTemplate)($scope);
             $scope.tuteeEmail = $compile(tuteeTemplate)($scope);
 
