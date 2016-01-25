@@ -6,10 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from django.core.serializers.json import DjangoJSONEncoder
-from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
-from django.db import IntegrityError
 
 import json
 import smtplib
