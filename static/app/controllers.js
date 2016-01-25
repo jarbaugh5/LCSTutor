@@ -1039,7 +1039,8 @@ define([ // jshint ignore:line
             $scope.tutee = {
                 user: {
                     first_name: 'TuteeFirstName',
-                    last_name: 'TuteeLastName'
+                    last_name: 'TuteeLastName',
+                    email: 'TuteeEmailAddress'
                 },
                 grade: 'TuteeGrade(1st Grade)',
                 gender: 'TuteeGender',
