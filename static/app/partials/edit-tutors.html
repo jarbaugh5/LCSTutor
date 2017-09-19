@@ -19,19 +19,19 @@
             <p class="et-filters-title">Filters:</p>
 
             <div class="et-filters-btn-wrapper">
-                <button class="btn btn-lg btn-default">
+                <button class="btn btn-lg btn-default" ng-click="filterState='All'" ng-class="{'filter-selected': filterState === 'All'}">
                     All
                 </button>
             </div>
 
             <div class="et-filters-btn-wrapper">
-                <button class="btn btn-lg btn-default">
+                <button class="btn btn-lg btn-default" ng-click="filterState='Unmatched'" ng-class="{'filter-selected': filterState === 'Unmatched'}">
                     Unmatched
                 </button>
             </div>
 
             <div class="et-filters-btn-wrapper">
-                <button class="btn btn-lg btn-default">
+                <button class="btn btn-lg btn-default" ng-click="filterState='Matched'" ng-class="{'filter-selected': filterState === 'Matched'}">
                     Matched
                 </button>
             </div>
@@ -53,7 +53,7 @@
                         <th>Extra Info</th>
                     </tr>
 
-                    <tr ng-repeat="tutor in tuts" class="text-left et-item-row">
+                    <tr ng-repeat="tutor in tuts | filter:filterTutors" class="text-left et-item-row">
                         <td>
                             <div class="et-item-btn-wrapper">
                                 <button class="btn btn-sm btn-default" ng-click="editTutor(tutor)">Edit</button>

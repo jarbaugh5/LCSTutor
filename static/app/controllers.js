@@ -315,6 +315,8 @@ define([ // jshint ignore:line
                 $state.go('home');
             }
 
+            $scope.filterState = 'All';
+
             $scope.logout = function () {
                 $window.location.href = '/logout';
             };
@@ -375,6 +377,16 @@ define([ // jshint ignore:line
                     });
                 }
             };
+
+            $scope.filterTutors = function (value) {
+                if ($scope.filterState === 'All') {
+                    return true;
+                } else if ($scope.filterState === 'Matched') {
+                    return value.matches.length > 0;
+                } else if ($scope.filterState === 'Unmatched') {
+                    return value.matches.length === 0;
+                }
+            };
         }]);
 
     controllers.controller('LCSTutoringApp.controllers.EditTuteesController', [
@@ -388,6 +400,8 @@ define([ // jshint ignore:line
             if (!(UserInfo.hasInfo && UserInfo.user.is_staff)) {
                 $state.go('home');
             }
+
+            $scope.filterState = 'All';
 
             $scope.logout = function () {
                 $window.location.href = '/logout';
@@ -447,6 +461,16 @@ define([ // jshint ignore:line
                         ' with error: ' + error);
                         console.error('Failed to delete tutee ' + user.user.first_name + '.');
                     });
+                }
+            };
+
+            $scope.filterTutees = function (value) {
+                if ($scope.filterState === 'All') {
+                    return true;
+                } else if ($scope.filterState === 'Matched') {
+                    return value.matches.length > 0;
+                } else if ($scope.filterState === 'Unmatched') {
+                    return value.matches.length === 0;
                 }
             };
         }]);

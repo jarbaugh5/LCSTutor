@@ -25,7 +25,6 @@ TODO:
 - automatically change the grade of each tutee each year
 	- when grades change automatically, tutees in grade 13 should be removed
 	  from the system
-- fix bug in sorting between matched and unmatched
 - remove the duplicate entries for the same people
 - checkbox for special needs for tutee form as well as a field where parents
   can explain it
