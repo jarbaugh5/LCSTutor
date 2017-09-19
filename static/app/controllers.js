@@ -161,7 +161,7 @@ define([ // jshint ignore:line
             $scope.formData.phone = '';
             $scope.formData.satHelp = false;
             $scope.formData.subjects = [];
-            $scope.formData.gender = 'male'; // Choosing one by default
+            $scope.formData.gender = '';
             $scope.formData.other = false; // Other gender flag
             $scope.formData.otherGender = ''; // Other gender text if flag is true
             //$scope.formData.grade = '1'; // Choosing one by default
@@ -210,7 +210,7 @@ define([ // jshint ignore:line
                         'phone': $scope.formData.phone,
                         'sat_help': $scope.formData.satHelp,
                         'subjects': $scope.formData.subjects,
-                        'gender': $scope.formData.other ? $scope.formData.otherGender : $scope.formData.gender,
+                        'gender': $scope.formData.gender,
                         //'grade': $scope.formData.grade,
                         'extra_info': $scope.formData.extraInfo,
                         'grades15': $scope.formData.grades15,

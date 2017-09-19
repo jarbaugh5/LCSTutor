@@ -87,33 +87,8 @@
                     <label class="control-label">
                         Gender:
                     </label>
-                    <div class="contains-radio">
-                        <label>
-                            <input type="radio" name="gender" label="Male" accesskey="M"
-                                   ng-model="formData.gender" ng-value="'male'"
-                                    ng-click="formData.other=false; formData.otherGender=''"
-                                    selected/>
-                            Male
-                        </label>
-                        <label>
-                            <input type="radio" name="gender" label="Female" accesskey="F"
-                                   ng-model="formData.gender" ng-value="'female'"
-                                    ng-click="formData.other=false; formData.otherGender=''"/>
-                            Female
-                        </label>
-                        <label>
-                            <input type="radio" name="gender" label="Other" accesskey="O"
-                                   ng-model="formData.other" ng-value="true"
-                                    ng-click="formData.gender=null"/>
-                            Other
-                        </label>
-                    </div>
-                    <label class="control-label invisible" for="genderothertext">
-                        Gender (Other):
-                    </label>
                     <input type="text" id="genderothertext" name="genderothertext" class="form-control"
-                           placeholder="Other" value=""
-                           ng-disabled="!formData.other" ng-model="formData.otherGender"/>
+                           placeholder="Gender" value="" ng-model="formData.gender"/>
                 </div>
 
                 <!--<div class="tutee-signup-item" ng-init="grade">-->
