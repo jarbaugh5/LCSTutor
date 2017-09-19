@@ -185,7 +185,13 @@ def get_tutee_info(request):
     if not request.user.is_authenticated():
         return HttpResponseForbidden()
 
-    tutee = Tutee.objects.get(user=request.user)
+    try:
+        tutee = Tutee.objects.get(user=request.user)
+    except Tutee.DoesNotExist:
+        return HttpResponse(json.dumps({
+            'error': 'Tutee does not exist for user'
+        }), status=404, content_type='application/json')
+
     tutee_dict = model_to_dict(tutee)
 
     tutee_dict = chase_users(tutee_dict)
@@ -206,7 +212,13 @@ def get_tutor_info(request):
     if not request.user.is_authenticated():
         return HttpResponseForbidden()
 
-    tutor = Tutor.objects.get(user=request.user)
+    try:
+        tutor = Tutor.objects.get(user=request.user)
+    except Tutor.DoesNotExist:
+        return HttpResponse(json.dumps({
+            'error': 'Tutor does not exist for user'
+        }), status=404, content_type='application/json')
+
     tutor_dict = model_to_dict(tutor)
 
     tutor_dict = chase_users(tutor_dict)
