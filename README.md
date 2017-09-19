@@ -16,7 +16,10 @@ To setup:
 
 This heroku doc is a great tutorial for heroku toolbelt stuff: https://devcenter.heroku.com/articles/heroku-local
 
-For deploy: heroku buidpacks:set https://github.com/ddollar/heroku-buildpack-multi.git
+Deployment note: This project requires two heroku buildpacks: heroku/nodejs and heroku/python.
+The two buildpacks must be in that order so that the django collectstatic command runs after
+all of the javascript dependencies are installed by the nodejs build.
+(https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app)
 
 TODO:
 - automatically change the grade of each tutee each year
