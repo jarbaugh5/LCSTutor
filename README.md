@@ -30,7 +30,7 @@ TODO:
   can explain it
   	- checkbox for tutors to say whether or not they're comfortable tutoring
   	  kids with special needs
-- include a class year field for tutors
+- include a class year field for tutors (do with Kevin)
 - have a written response for tutor gender (as opposed to predetermined 
   options)
 - create an easier way to group all parent emails into an e-list
