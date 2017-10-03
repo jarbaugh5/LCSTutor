@@ -159,6 +159,7 @@ define([ // jshint ignore:line
             $scope.formData.confirmPassword = '';
             $scope.formData.email = '';
             $scope.formData.phone = '';
+            $scope.formData.class_year = '';
             $scope.formData.satHelp = false;
             $scope.formData.subjects = [];
             $scope.formData.gender = '';
@@ -208,6 +209,7 @@ define([ // jshint ignore:line
                         'confirm_password': $scope.formData.confirmPassword,
                         'email': $scope.formData.email,
                         'phone': $scope.formData.phone,
+                        'class_year': $scope.formData.class_year,
                         'sat_help': $scope.formData.satHelp,
                         'subjects': $scope.formData.subjects,
                         'gender': $scope.formData.gender,
