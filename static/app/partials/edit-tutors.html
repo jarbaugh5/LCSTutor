@@ -44,7 +44,7 @@
                         <th>Action</th>
                         <th>Name</th>
                         <th>Gender</th>
-                        <th>YOG</th>
+                        <!--<th>Grade</th>-->
                         <th>SAT Help?</th>
                         <th>Subjects</th>
                         <!--<th>Parent Name</th>-->
@@ -64,7 +64,6 @@
                         </td>
                         <td>{{ tutor.user.first_name }} {{ tutor.user.last_name }}</td>
                         <td>{{ tutor.gender }}</td>
-                        <td>{{ tutor.class_year }}</td>
                         <td>{{ tutor.sat_help }}</td>
                         <td>
                             <span ng-repeat="subject in tutor.subjects track by $index">
