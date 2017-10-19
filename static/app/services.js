@@ -153,7 +153,7 @@ define([ // jshint ignore:line
                     service.tutor.info = data;
                 })
                 .error(function () {
-                    console.error('Unable to get tutee info');
+                    console.error('Unable to get tutor info');
                 });
 
             service.getAllTutors = function (cb, err) {

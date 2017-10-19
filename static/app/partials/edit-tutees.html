@@ -53,7 +53,7 @@
                         <th>Extra Info</th>
                     </tr>
 
-                    <tr ng-repeat="tutor in tuts | filter:filterTutees" class="text-left et-item-row">
+                    <tr ng-repeat="tutor in tuts | filter:filterTutees | orderBy : 'user.last_name'" class="text-left et-item-row">
                         <td>
                             <div class="et-item-btn-wrapper">
                                 <button class="btn btn-sm btn-default" ng-click="editTutee(tutor)">Edit</button>

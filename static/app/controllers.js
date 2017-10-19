@@ -170,6 +170,7 @@ define([ // jshint ignore:line
             $scope.formData.grades15 = false; // Grades 1 - 5
             $scope.formData.grades68 = false; // Grades 6 - 8
             $scope.formData.grades912 = false; // Grades 9 - 12
+            $scope.formData.class_year = 0;
 
             $scope.subjectChoices = Subjects.subjects;
 
@@ -215,7 +216,8 @@ define([ // jshint ignore:line
                         'extra_info': $scope.formData.extraInfo,
                         'grades15': $scope.formData.grades15,
                         'grades68': $scope.formData.grades68,
-                        'grades912': $scope.formData.grades912
+                        'grades912': $scope.formData.grades912,
+                        'class_year': $scope.formData.class_year
                     },
                     function () {
                         console.log('Posted tutor signup data');
