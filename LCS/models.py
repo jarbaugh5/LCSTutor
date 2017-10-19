@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from datetime import datetime
 
 class Subject(models.Model):
     name = models.CharField(max_length=512)
@@ -61,7 +60,6 @@ class Tutor(models.Model):
     grades68 = models.BooleanField(default=False)
     grades912 = models.BooleanField(default=False)
     extra_info = models.TextField(null=True, blank=True)
-    class_year = models.IntegerField(default=datetime.now().year)
 
 
 class Match(models.Model):
