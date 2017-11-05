@@ -60,6 +60,7 @@ class Tutor(models.Model):
     grades68 = models.BooleanField(default=False)
     grades912 = models.BooleanField(default=False)
     extra_info = models.TextField(null=True, blank=True)
+    class_year = models.IntegerField(default=2021)
 
 
 class Match(models.Model):
