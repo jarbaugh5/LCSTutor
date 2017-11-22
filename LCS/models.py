@@ -53,6 +53,7 @@ class Tutor(models.Model):
 
     phone = models.CharField(max_length=128)
     sat_help = models.BooleanField()
+    spec_needs = models.BooleanField(default=False)
     subjects = models.ManyToManyField(Subject)
     gender = models.CharField(max_length=128)
     # grade = models.CharField(max_length=128, choices=GRADES)

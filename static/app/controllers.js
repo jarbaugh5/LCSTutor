@@ -160,6 +160,7 @@ define([ // jshint ignore:line
             $scope.formData.email = '';
             $scope.formData.phone = '';
             $scope.formData.satHelp = false;
+            $scope.formData.spec_needs = false;
             $scope.formData.subjects = [];
             $scope.formData.gender = '';
             $scope.formData.other = false; // Other gender flag
@@ -210,6 +211,7 @@ define([ // jshint ignore:line
                         'email': $scope.formData.email,
                         'phone': $scope.formData.phone,
                         'sat_help': $scope.formData.satHelp,
+                        'spec_needs': $scope.formData.spec_needs,
                         'subjects': $scope.formData.subjects,
                         'gender': $scope.formData.gender,
                         //'grade': $scope.formData.grade,
@@ -747,12 +749,14 @@ define([ // jshint ignore:line
             $scope.tutorFilterCriteria = {
                 gender: null,
                 sat_help: null,
+                spec_needs: null,
                 showAlreadyMatched: false
             };
 
             $scope.tuteeFilterCriteria = {
                 gender: null,
                 sat_help: null,
+                spec_needs: null,
                 showAlreadyMatched: false
             };
 
@@ -760,6 +764,7 @@ define([ // jshint ignore:line
                 // Initialize to true in case there is no pertinent criteria
                 var genderMatches = true;
                 var satMatches = true;
+                var specNeedsMatches = true;
                 var matched = true;
 
                 if (criteria.gender !== null) {
@@ -774,6 +779,10 @@ define([ // jshint ignore:line
                     satMatches = tut.sat_help === criteria.sat_help;
                 }
 
+                if (criteria.spec_needs !== null) {
+                    specNeedsMatches = tut.spec_needs === criteria.spec_needs;
+                }
+
                 // Hide matched tutors/tutees
                 if (tut.matches.length > 0) {
                     matched = false;
@@ -785,7 +794,7 @@ define([ // jshint ignore:line
                     }
                 }
 
-                return genderMatches && satMatches && matched;
+                return genderMatches && satMatches && specNeedsMatches && matched;
             };
 
             $scope.tutorFilter = function (tutor) {

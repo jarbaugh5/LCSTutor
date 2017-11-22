@@ -56,6 +56,21 @@
                 </div>
 
                 <div class="mm-selection-filters">
+                    <label for="mm-tutor-specneeds-radiogroup">Special Needs:</label>
+                    <radiogroup id="mm-specneeds-radiogroup" class="mm-selection-filters">
+                        <label for="mm-tutor-specneeds-radio-true">True</label>
+                        <input type="radio" ng-model="tutorFilterCriteria.spec_needs"
+                               ng-value="true" id="mm-tutor-specneeds-radio-true"/>
+                        <label for="mm-tutor-specneeds-radio-false">False</label>
+                        <input type="radio" ng-model="tutorFilterCriteria.spec_needs"
+                               ng-value="false" id="mm-tutor-specneeds-radio-false"/>
+                        <label for="mm-tutor-specneeds-radio-null">Both</label>
+                        <input type="radio" ng-model="tutorFilterCriteria.spec_needs"
+                               ng-value="null" id="mm-tutor-specneeds-radio-null"/>
+                    </radiogroup>
+                </div>                
+
+                <div class="mm-selection-filters">
                     <label for="mm-tutor-show-already-matched">Show Matched:</label>
                     <input id="mm-tutor-show-already-matched" type="checkbox" ng-model="tutorFilterCriteria.showAlreadyMatched"/>
                 </div>
@@ -74,6 +89,7 @@
                         <th>Name</th>
                         <th>Gender</th>
                         <th>SAT Help?</th>
+                        <th>Special Needs?</th>
                         <th>Subjects</th>
                         <th>Grades</th>
                         <!-- <th>Phone</th> -->
@@ -90,6 +106,7 @@
                         <td>{{ tutor.user.first_name }} {{ tutor.user.last_name }}</td>
                         <td>{{ tutor.gender }}</td>
                         <td>{{ tutor.sat_help }}</td>
+                        <td>{{ tutor.spec_needs }}</td>
                         <td>
                             <span ng-repeat="subject in tutor.subjects track by $index">
                                 {{ subject.name }}<span ng-if="$index < tutor.subjects.length - 1">,</span>
@@ -143,7 +160,7 @@
                         <input type="radio" ng-model="tuteeFilterCriteria.gender"
                                ng-value="null" id="mm-tutee-sat-radio-all"/>
                     </radiogroup>
-                </div>
+                </div> 
 
                 <div class="mm-selection-filters">
                     <label for="mm-tutee-show-already-matched">Show Matched:</label>
