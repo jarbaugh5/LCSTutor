@@ -6,11 +6,11 @@ from LCS.models import *
 import unicodedata
 import csv
 
-tutors = Tutor.objects.all()
+tutees = Tutee.objects.all()
 
 emails = []
-for tutor in tutors:
-	emails.append(unicodedata.normalize('NFKD', tutor.user.email).encode('ascii','ignore'))
+for tutee in tutees:
+	emails.append(unicodedata.normalize('NFKD', tutee.user.email).encode('ascii','ignore'))
 
 with open('emails.csv', 'wt') as csvfile:
     emailwriter = csv.writer(csvfile)
