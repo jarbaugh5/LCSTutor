@@ -16,4 +16,4 @@ with open('emails.csv', 'wt') as csvfile:
     emailwriter = csv.writer(csvfile)
     for email in emails:
     	emailwriter.writerow([email])
-    	print(email)
+    	print(email.decode('UTF-8'))
