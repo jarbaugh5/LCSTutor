@@ -1,6 +1,6 @@
 # First, run the command: heroku local:run -e dev.env python manage.py shell
-# Then, in the Django shell, run the command: execfile('emails.py')
-# exec(open('emails.py').read())
+#    (or for production): heroku run python manage.py shell
+# Then, in the Django shell, run the command: exec(open('emails.py').read())
 
 from LCS.models import *
 import unicodedata

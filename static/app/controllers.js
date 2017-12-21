@@ -74,6 +74,7 @@ define([ // jshint ignore:line
             $scope.formData.grade = '1'; // Choosing one by default
             $scope.formData.parentName = '';
             $scope.formData.parentPhone = '';
+            $scope.formData.spec_needs = '';
             $scope.formData.extraInfo = '';
 
             $scope.subjectChoices = Subjects.subjects;
@@ -118,6 +119,7 @@ define([ // jshint ignore:line
                         'grade': $scope.formData.grade,
                         'parent_name': $scope.formData.parentName,
                         'parent_phone': $scope.formData.parentPhone,
+                        'spec_needs': $scope.formData.spec_needs,
                         'extra_info': $scope.formData.extraInfo
                     },
                     function () {

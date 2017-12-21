@@ -31,6 +31,7 @@ class Tutee(models.Model):
     parent_name = models.CharField(max_length=512)
     parent_phone = models.CharField(max_length=128)
     extra_info = models.TextField(null=True, blank=True)
+    spec_needs = models.TextField(blank=True)
 
 
 class Tutor(models.Model):
