@@ -408,7 +408,8 @@ def update_tutee(request):
         'gender': tutee_form.cleaned_data['gender'],
         'parent_phone': tutee_form.cleaned_data['parent_phone'],
         'parent_name': tutee_form.cleaned_data['parent_name'],
-        'sat_help': tutee_form.cleaned_data['sat_help']
+        'sat_help': tutee_form.cleaned_data['sat_help'],
+        'grade': tutee_form.cleaned_data['grade']
     })  # Can't just unpack the cleaned data b/c subjects is a m2m field :/
 
     tutee = Tutee.objects.get(id=request.POST['id'])

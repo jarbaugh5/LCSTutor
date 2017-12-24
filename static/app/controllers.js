@@ -423,9 +423,65 @@ define([ // jshint ignore:line
                     $scope.tuts = data;
                 },
                 function err() {
-                    console.error('Unable to get all tutors');
+                    console.error('Unable to get all tutees');
                 }
             );
+
+            var getSubmittableUser = function (user) {
+                // Copy the user object
+                var newUser = JSON.parse(JSON.stringify(user));
+
+                // Prepare subjects field
+                newUser.subjects = newUser.subjects.map(function (subObj) {
+                    return subObj.id;
+                });
+
+                // TODO: Prepare user field if need be
+                return newUser;
+            };
+
+            $scope.incGrades = function () {
+                if ($window.confirm('Are you sure you want to increment grades? ' +
+                    'Tutees currently listed in 12th Grade will be deleted.')) {
+                    Tutee.getAllTutees(
+                        function cb(data) {
+                            $scope.tuts = data;
+                            var i;
+                            for (i = 0; i < $scope.tuts.length; i++) {
+                                if (parseInt($scope.tuts[i].grade) < 12) {
+                                    $scope.tuts[i].grade = (parseInt($scope.tuts[i].grade) + 1).toString();
+                                    Tutee.saveTutee(getSubmittableUser($scope.tuts[i]),
+                                        function cb() {
+                                            console.log('Successfully updated tutee');
+                                        },
+                                        function err() {
+                                            console.error('Unable to update tutee');
+                                        });
+                                } else {
+                                    Tutee.deleteTutee(getSubmittableUser($scope.tuts[i]),
+                                        function cb() {
+                                            console.log('Successfully deleted tutee');
+                                            Tutee.getAllTutees(
+                                                function cb(data) {
+                                                    $scope.tuts = data;
+                                                },
+                                                function err() {
+                                                    console.error('Unable to get all tutors');
+                                                }
+                                            );
+                                        },
+                                        function err(error) {
+                                            console.error('Unable to delete tutee. Error: ' + error);
+                                        });
+                                }
+                            }
+                        },
+                        function err() {
+                            console.error('Unable to get all tutors');
+                        }
+                    );
+                }
+            };
 
             $scope.editTutee = function (user) {
                 var modalInstance = $modal.open({
