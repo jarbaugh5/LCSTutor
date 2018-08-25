@@ -7,13 +7,30 @@ import unicodedata
 import csv
 
 tutees = Tutee.objects.all()
+tutors = Tutor.objects.all()
 
-emails = []
+tutee_emails = []
+tutee_parents = []
 for tutee in tutees:
-	emails.append(unicodedata.normalize('NFKD', tutee.user.email).encode('ascii','ignore'))
+	tutee_emails.append(unicodedata.normalize('NFKD', tutee.user.email).encode('ascii','ignore'))
+	tutee_parents.append(unicodedata.normalize('NFKD', tutee.parent_name).encode('ascii','ignore'))
+
+tutor_emails = []
+tutor_names = []
+for tutor in tutors:
+	tutor_emails.append(unicodedata.normalize('NFKD', tutor.user.email).encode('ascii','ignore'))
+	name = unicodedata.normalize('NFKD', tutor.user.first_name).encode('ascii','ignore') + " " 
+	     + unicodedata.normalize('NFKD', tutor.user.last_name).encode('ascii','ignore')
+	tutor_names.append(name)
 
 with open('emails.csv', 'wt') as csvfile:
     emailwriter = csv.writer(csvfile)
-    for email in emails:
+    for email in tutee_emails:
     	emailwriter.writerow([email])
     	print(email.decode('UTF-8'))
+    for parent in tutee_parents:
+    	print(parent.decode('UTF-8'))
+    for email in tutor_emails:
+    	print(email.decode('UTF-8'))
+    for name in tutor_names:
+    	print(name.decode('UTF-8'))
